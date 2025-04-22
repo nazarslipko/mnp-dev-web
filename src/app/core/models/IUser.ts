@@ -1,0 +1,30 @@
+import { IRole } from './IRole';
+import { ILookup } from './ILookup';
+export interface IUser {
+  UserId?: number;
+  AffiliationLookupId?: number;
+  UserTypeLookupId?: number;
+  RoleId?: number;
+  FirstName: string;
+  LastName: string;
+  Email: string;
+  Phone: string;
+  Profile: string;
+  Country: string;
+  Password: string;
+  ConfirmPassword: string;
+  LoginToken?: string;
+  LastLoggedIn?: Date;
+  LockedOn?: Date;
+  RenewPassword: string;
+  ResetPassword?: Date;
+  Active: boolean;
+  Moderator: boolean;
+  Intercessor: boolean;
+  IsBlocked: boolean;
+  CreatedDate?: Date;
+  ModifiedDate?: Date;
+  //Role: IRole;
+  //Affiliation: ILookup;
+  //UserTypeVo: ILookup;
+}

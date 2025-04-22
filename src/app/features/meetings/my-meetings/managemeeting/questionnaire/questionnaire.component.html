@@ -1,0 +1,115 @@
+<div class="container-fluid mb-3 mt-3">
+  <div class="row mb-3">
+    <div class="col-auto">
+      <button
+        type="button"
+        class="btn btn-primary text-white mx-2 mb-2 rounded-pill"
+        title="Add Court of Appeal Case"
+        (click)="openQuestionnaireComponentModal(0)"
+      >
+        <i class="fas fa-square-plus fa-lg me-3"></i>
+        <span>Create New Questionnaire Component</span>
+      </button>
+    </div>
+  </div>
+</div>
+<ng-container *ngIf="meetingQuestionnaireComponents.length > 0">
+  <div
+    class="card mb-3"
+    *ngFor="let component of meetingQuestionnaireComponents"
+  >
+    <div class="card-header">
+      <div class="row">
+        <div class="col-auto">
+          <button
+            type="button"
+            class="btn action_buttons text-white m-lg-2 mb-2"
+            (click)="
+              openQuestionnaireComponentModal(component?.MeetingComponentId)
+            "
+          >
+            <i class="fas fa-pen fa-lg me-3"></i>
+            <span>Edit&nbsp;{{ component.Title }} &nbsp;Component</span>
+          </button>
+        </div>
+
+        <div class="col-auto">
+          <button
+            type="button"
+            class="btn action_buttons text-white m-lg-2 mb-2 float-end"
+            (click)="openQuestionnaireListModal(component, 0)"
+          >
+            <i class="fas fa-plus fa-lg me-3"></i>
+            <span>Create&nbsp;{{ component.Title }}&nbsp;Questionnaire</span>
+          </button>
+        </div>
+
+        <div class="col-auto">
+          <button
+            type="button"
+            class="btn action_buttons text-white m-lg-2 mb-2 float-end"
+            (click)="openViewQuestionnaireModal(component)"
+          >
+            <i class="fas fa-expand fa-lg me-3"></i>
+            <span>View&nbsp;{{ component.Title }}&nbsp;Participants</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row" *ngIf="component.Questionnaire">
+        <div class="col-12">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th scope="col" style="width: 80%"></th>
+                <th scope="col" style="width: 20%"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let questionnaire of component.Questionnaire">
+                <td>
+                  <!--Displays Signup story-->
+                  <div class="justify-content-center">
+                    <p>
+                      <strong>Question:</strong>&nbsp;<span>{{
+                        questionnaire.Question
+                      }}</span>
+                    </p>
+                    <p *ngIf="questionnaire.AnswerOptions">
+                      <strong>Answer&nbsp;Options:</strong>&nbsp;<span>{{
+                        questionnaire.AnswerOptions
+                      }}</span>
+                    </p>
+                    <p *ngIf="questionnaire.Description">
+                      <strong>Description:</strong>&nbsp;<span>{{
+                        questionnaire.Description
+                      }}</span>
+                    </p>
+                  </div>
+                </td>
+                <td>
+                  <button
+                    class="btn btn-sm btn-outline-primary"
+                    (click)="
+                      openQuestionnaireListModal(
+                        component,
+                        questionnaire.MeetingQuestionnaireId
+                      )
+                    "
+                  >
+                    <i class="fas fa-pencil"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!--Display only when components has not any items-->
+      <div class="row" *ngIf="!component.Questionnaire">
+        <p>No questions are listed on this Questionnaire component.</p>
+      </div>
+    </div>
+  </div>
+</ng-container>

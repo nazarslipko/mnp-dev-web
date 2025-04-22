@@ -1,0 +1,543 @@
+<div class="container">
+    <div class="row">
+        <form *ngIf="theScrollForm" [formGroup]="theScrollForm">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-3 text-center">
+                        <div class="col-auto">
+                            <div *ngFor="let category of scrollCategory">
+                                <div *ngIf="category.LookupId === 6">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" formControlName="CategoryLookupId" name="CategoryLookupId" (click)="scrollCategoryChanged(category.LookupId)" [value]="category.LookupId" [checked]="true">
+                                        <label class="form-check-label">{{category.LookupName}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div *ngFor="let category of scrollCategory">
+                                <div *ngIf="category.LookupId === 7">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" formControlName="CategoryLookupId" name="CategoryLookupId" (click)="scrollCategoryChanged(category.LookupId)" [value]="category.LookupId">
+                                        <label class="form-check-label">{{category.LookupName}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div *ngFor="let category of scrollCategory">
+                                <div *ngIf="category.LookupId === 8">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" formControlName="CategoryLookupId" name="CategoryLookupId" (click)="scrollCategoryChanged(category.LookupId)" [value]="category.LookupId">
+                                        <label class="form-check-label">{{category.LookupName}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <div *ngFor="let category of scrollCategory">
+                                <div *ngIf="category.LookupId === 9">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" formControlName="CategoryLookupId" name="CategoryLookupId" (click)="loadPrayRequest(category.LookupId)" [value]="category.LookupId">
+                                        <label class="form-check-label">{{category.LookupName}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-auto">
+                            <div *ngFor="let category of scrollCategory">
+                                <div *ngIf="category.LookupId === 10">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" formControlName="CategoryLookupId" name="CategoryLookupId" (click)="startPrayMeeting(category.LookupId, meetingModal)" [value]="category.LookupId">
+                                        <label class="form-check-label">{{category.LookupName}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="scrollRequest === 'scroll'">
+                        <div class="row">
+                            <div class="mb-3">
+                                <input type="text" class="form-control" formControlName="Title" maxlength="50" placeholder="{{titlePlaceholderMessage}}">
+                                <ul *ngIf="theScrollForm.controls['Title'].invalid && (theScrollForm.controls['Title'].dirty || theScrollForm.controls['Title'].touched)" class="text-danger list-unstyled">
+                                    <li class="fs-6" [innerHtml]="scrollFormErrorMessage('Title', theScrollForm.controls['Title'].errors)"></li>
+                                </ul>
+                            </div>
+                            <div class="mb-3">
+                                <textarea class="form-control" rows="4" formControlName="Story" placeholder="{{storyPlaceholderMessage}}"></textarea>
+                                <ul *ngIf="theScrollForm.controls['Story'].invalid && (theScrollForm.controls['Story'].dirty || theScrollForm.controls['Story'].touched)" class="text-danger list-unstyled">
+                                    <li class="fs-6" [innerHtml]="scrollFormErrorMessage('Story', theScrollForm.controls['Story'].errors)"></li>
+                                </ul>
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" formControlName="Tags" placeholder="{{tagPlaceholderMessage}}">
+                                <ul *ngIf="theScrollForm.controls['Tags'].invalid && (theScrollForm.controls['Tags'].dirty || theScrollForm.controls['Tags'].touched)" class="text-danger list-unstyled">
+                                    <li class="fs-6" [innerHtml]="scrollFormErrorMessage('Tags', theScrollForm.controls['Tags'].errors)"></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3 ">
+                                <button type="submit" class="btn btn-primary float-end" (click)="postOnScroll()">Post</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="scrollRequest === 'requests'">
+                        <div class="row">
+                            <div class="mb-3">
+                                <input type="text" class="form-control" formControlName="Purpose" maxlength="50" placeholder="Title your prayer request">
+                                <ul *ngIf="theScrollForm.controls['Purpose'].invalid && (theScrollForm.controls['Purpose'].dirty || theScrollForm.controls['Purpose'].touched)" class="text-danger list-unstyled">
+                                    <li class="fs-6" [innerHtml]="scrollFormErrorMessage('Title', theScrollForm.controls['Purpose'].errors)"></li>
+                                </ul>
+                            </div>
+                            <div class="mb-3">
+                                <textarea class="form-control" rows="4" formControlName="Request" placeholder="Tell us what the prayer request is about"></textarea>
+                                <ul *ngIf="theScrollForm.controls['Request'].invalid && (theScrollForm.controls['Request'].dirty || theScrollForm.controls['Request'].touched)" class="text-danger list-unstyled">
+                                    <li class="fs-6" [innerHtml]="scrollFormErrorMessage('Request', theScrollForm.controls['Request'].errors)"></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label> <span class="fs-5">Privacy:</span></label>
+                            <div class="col-auto">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" formControlName="Confidential" name="Confidential">
+                                    <label class="form-check-label">Confidential</label>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" formControlName="Videoconference" name="Videoconference" (click)="requestedPrayerOnCall()">
+                                    <label class="form-check-label">Prayer Room</label>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" formControlName="AcceptNotifications" name="AcceptNotifications">
+                                    <label class="form-check-label">Accept Notifications</label>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" formControlName="AcceptSharing" name="AcceptSharing">
+                                    <label class="form-check-label">Allow Sharing</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-3" formGroupName="Availability" *ngIf="prayerOnCall">
+                            <label> <span class="fs-5">Availability:</span></label>
+                            <div class="col-3">
+                                <!--  <div class="input-group">
+                                  <input class="form-control" formControlName="RequestDate" placeholder="yyyy-mm-dd" name="RequestDate"  ngbDatepicker #requestDate="ngbDatepicker" />
+                                  <button class="btn btn-outline-info bi bi-calendar3" (click)="requestDate.toggle()" type="button"></button>
+                                </div> -->
+                                <input type="date" class="form-control" formControlName="RequestDate" name="RequestDate" maxlength="20" placeholder="Enter date">
+                            </div>
+                            <div class="col-3">
+                                <select class="form-select" formControlName="RequestTime">
+                                    <option value="">Choose Time</option>
+                                    <option *ngFor="let time of iTime" [ngValue]="time.TimeId">{{time.Time}}</option>
+                                </select>
+                                <div class="text-danger" *ngIf="theScrollForm.controls['Availability'].hasError('required')">
+                                    <sup>*</sup>Select Time you want to pray
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <select class="form-select" formControlName="Timezone">
+                                    <option value="">Choose Timezone</option>
+                                    <option *ngFor="let timezone of countryTimezone" [ngValue]="timezone.TimeZoneinfo">{{timezone.TimeZoneinfo}}</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label> <span class="fs-5">Pray For:</span></label>
+                            <div class="col-2" *ngFor="let needs of requestServiceCategory">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" (change)="changedRequestedServiceType(needs.LookupId)" type="checkbox" formControlName="ServiceTypeLookupId" name="ServiceTypeLookupId" [value]="needs.LookupId">
+                                    <label class="form-check-label">{{needs.LookupName}}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3">
+                                <input type="text" class="form-control" formControlName="Tags" placeholder="#tag your prayer request. Words start with # and are comma separated: #addiction,#homelessness">
+                                <ul *ngIf="theScrollForm.controls['Tags'].invalid && (theScrollForm.controls['Tags'].dirty || theScrollForm.controls['Tags'].touched)" class="text-danger list-unstyled">
+                                    <li class="fs-6" [innerHtml]="scrollFormErrorMessage('Tag', theScrollForm.controls['Tags'].errors)"></li>
+                                </ul>
+                            </div>
+                            <div class="mb-3 ">
+                                <button type="submit" class="btn btn-primary float-end" (click)="submitPrayerRequest()">Request Prayer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class=" py-5 me-3">
+                        <a class="text-decoration-none float-end" href="javascript:0;" placement="bottom" [ngbPopover]="popFilterContent"><i class="fa-solid fa-filter fa-lg"></i>Filter</a>
+                        <ng-template #popFilterContent>
+                            <div class="mb-2">
+                                <span (click)="filterScroll(1)">Ascending</span>
+                            </div>
+                            <div class="mb-2">
+                                <span (click)="filterScroll(0)"> Descending</span>
+                            </div>
+                        </ng-template>
+                        <!-- <ng-template #popFilterTitle>Sort By</ng-template> -->
+                        <!--   <button type="button" placement="bottom" class="btn btn-outline-secondary" [ngbPopover]="popFilterContent" [popoverTitle]="popFilterTitle">
+                          I've got markup and bindings in my popover!
+                        </button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-results" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="500" (scrolled)="onScroll()">
+        <div class="table-responsive" *ngIf="theScroll.length">
+            <table class="table border border-1 table-bordered overflow-hidden">
+                <tbody *ngFor="let scroll of theScroll">
+                    <tr>
+                        <div class="row">
+                          <div class="col align-self-center">
+                                <div class="text-center">
+                                    <img src="..." class="img-fluid rounded-start" alt="...">
+                                </div>
+                            </div>
+                            <div class="col-10">
+                                <div class="container">
+                                    <div class="row">
+                                        <div *ngFor="let contact of scroll.Contact"><strong>{{contact.FirstName}}</strong>&nbsp;&nbsp;<strong>{{contact.LastName}}</strong></div>
+                                        <div class="fs-5 fst-italic fw-light">{{scroll.Title}}</div>
+                                        <div class="card-text"> {{scroll.Story}} </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="mb-2">
+                                            <small class="float-end fs-7 fst-italic"> Posted:&nbsp;{{scroll.CreatedDate |date: 'MMM d, y' }} {{scroll.Tags.split('|').join('&nbsp;')}}</small>
+                                        </div>
+                                        <div class="mb-2">
+                                            <hr class="mt-1 mb-1" />
+                                            <div class="d-grid gap-2 d-flex d-md-flex d-sm-flex justify-content-md-end justify-content-sm-end justify-content-end">
+                                                <a class="text-decoration-none" href="javascript:0;" (click)="scrollStoryReactions(scroll, 'liked', signInToPostModal)">
+                                                    <span *ngIf="!scroll.Reaction"><i class="fa-solid fa-thumbs-up fa-lg"></i></span>
+                                                    <div *ngIf="scroll.Reaction">
+                                                        <div *ngFor="let reaction of scroll.Reaction">{{reaction.Likes}}&nbsp;<i class="fa-solid fa-thumbs-up fa-xl"></i></div>
+                                                    </div>
+                                                </a>
+                                                <a class="text-decoration-none" href="javascript:0;" (click)="scrollStoryReactions(scroll, 'loved', signInToPostModal)">
+                                                    <span *ngIf="!scroll.Reaction"><i class="fa-solid fa-heart fa-lg"></i></span>
+                                                    <div *ngIf="scroll.Reaction">
+                                                        <span *ngFor="let reaction of scroll.Reaction">{{reaction.Loves}}&nbsp;<i class="fa-solid fa-heart fa-lg"></i></span>
+                                                    </div>
+                                                </a>
+                                                <a class="text-decoration-none" href="javascript:0;" (click)="scrollStoryReactions(scroll, 'listened', signInToPostModal)">
+                                                    <span *ngIf="!scroll.Reaction"><i class="fa-solid fa-headphones-simple fa-lg"></i></span>
+                                                    <div *ngIf="scroll.Reaction">
+                                                        <span *ngFor="let reaction of scroll.Reaction">{{reaction.Listened}}&nbsp;<i class="fa-solid fa-headphones-simple fa-lg"></i></span>
+                                                    </div>
+                                                </a>
+                                                <a class="text-decoration-none" href="javascript:0;" (click)="scrollStoryReactions(scroll, 'shared', signInToPostModal)">
+                                                    <span *ngIf="!scroll.Reaction"><i class="fa-solid fa-share fa-lg"></i></span>
+                                                    <div *ngIf="scroll.Reaction">
+                                                        <span *ngFor="let reaction of scroll.Reaction">{{reaction.Shared}}&nbsp;<i class="fa-solid fa-share fa-lg"></i></span>
+                                                    </div>
+                                                </a>
+                                                <a class="text-decoration-none" href="javascript:0;" [placement]="['bottom', 'top']" [ngbPopover]="popReactionContent">
+                                                    <i class="fa-solid fa-ellipsis fa-lg"></i>
+                                                </a>
+                                                <ng-template #popReactionContent>
+                                                    <div class="mb-2">
+                                                        <a class="text-decoration-none" href="javascript:0;" (click)="scrollStoryReactions(scroll, 'downloaded', signInToPostModal)">
+                                                            <span><i class="fa-solid fa-download fa-lg"></i>&nbsp;Download</span>
+                                                        </a>
+
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <a class="text-decoration-none" href="javascript:0;" (click)="scrollStoryReactions(scroll, 'favorite', signInToPostModal)">
+                                                            <span><i class="fa-solid fa-star fa-lg"></i>&nbsp;Favorite</span>
+                                                        </a>
+                                                    </div>
+                                                    <div class="mb-2">
+                                                        <a class="text-decoration-none" href="javascript:0;" (click)="scrollStoryReactions(scroll, 'inappropriate', signInToPostModal)">
+                                                            <span><i class="fa-solid fa-circle-xmark fa-lg"></i>&nbsp;Inappropriate</span>
+                                                        </a>
+
+                                                    </div>
+                                                </ng-template>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div *ngIf="isLoading">Loading...</div>
+    <div class="row" *ngIf="!theScroll.length">
+        <!-- Display no records found-->
+        <div class="mb-3">
+            <p>There is no data shared.</p>
+        </div>
+
+    </div>
+
+    <!--Pray Meeting Form: Modal-->
+    <ng-template #meetingModal let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title text-centered" id="modal-basic-title">Meet-N-Pray</h4>            
+            <button type="button" class="btn-close" aria-label="Close" (click)="closeMeetingModal()"></button>
+        </div>
+        <form *ngIf="meetingForm" [formGroup]="meetingForm" (ngSubmit)="saveMeeting()" novalidate>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group mb-3">
+                        <input type="text" class="form-control" formControlName="Title" placeholder="Name" />
+                        <ul *ngIf="meetingForm.controls['Title'].invalid && (meetingForm.controls['Title'].dirty || meetingForm.controls['Title'].touched)" class="text-danger list-unstyled">
+                            <li class="fs-6" [innerHtml]="meetingFormValidation('Title', meetingForm.controls['Title'].errors)"></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group mb-3">
+                                    <label class="fs-6">Start Date</label>
+                                    <input type="date" class="form-control" formControlName="StartDate" name="StartDate" maxlength="20" (change)="onDateChange()" placeholder="Enter Start Date">
+                                    <ul *ngIf="meetingForm.controls['StartDate'].invalid && (meetingForm.controls['StartDate'].dirty || meetingForm.controls['StartDate'].touched)" class="text-danger list-unstyled">
+                                        <li class="fs-6" [innerHtml]="meetingFormValidation('Start date', meetingForm.controls['StartDate'].errors)"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group mb-3">
+                                    <label class="fs-6">End Date</label>
+                                    <input type="date" class="form-control" formControlName="EndDate" name="EndDate" maxlength="20" (change)="onDateChange()" placeholder="Enter End Date">
+                                    <ul *ngIf="meetingForm.controls['EndDate'].invalid && (meetingForm.controls['EndDate'].dirty || meetingForm.controls['EndDate'].touched)" class="text-danger list-unstyled">
+                                        <li class="fs-6" [innerHtml]="meetingFormValidation('End date', meetingForm.controls['EndDate'].errors)"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="text-danger">{{meetingDateError}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group mb-3">
+                                    <label class="fs-6">Start Time</label>
+                                    <select class="form-select" formControlName="StartTime" (change)="onTimeChange()">
+                                        <option value="">Select</option>
+                                        <option *ngFor="let time of iTime" [ngValue]="time.TimeId">{{time.Time}}</option>
+                                    </select>
+                                    <ul *ngIf="meetingForm.controls['StartTime'].invalid && (meetingForm.controls['StartTime'].dirty || meetingForm.controls['StartTime'].touched)" class="text-danger list-unstyled">
+                                        <li class="fs-6" [innerHtml]="meetingFormValidation('Start Time', meetingForm.controls['StartTime'].errors)"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group mb-3">
+                                    <label class="fs-6">End Time</label>
+                                    <select class="form-select" formControlName="EndTime" (change)="onTimeChange()">
+                                        <option value="">Select</option>
+                                        <option *ngFor="let time of iTime" [ngValue]="time.TimeId">{{time.Time}}</option>
+                                    </select>
+                                    <ul *ngIf="meetingForm.controls['EndTime'].invalid && (meetingForm.controls['EndTime'].dirty || meetingForm.controls['EndTime'].touched)" class="text-danger list-unstyled">
+                                        <li class="fs-6" [innerHtml]="meetingFormValidation('End Time', meetingForm.controls['EndTime'].errors)"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="text-danger">{{meetingTimeError}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-auto">
+                        <div class="row">
+                            <div class="col-auto">
+                                <div class="form-group mb-3">
+                                    <select class="form-select" formControlName="TimeZone" name="TimeZone">
+                                        <option value="">Select Timezone</option>
+                                        <option *ngFor="let timezone of countryTimezone" [ngValue]="timezone.TimeZoneinfo">{{timezone.TimeZoneinfo}}</option>
+                                    </select>
+                                    <ul *ngIf="meetingForm.controls['TimeZone'].invalid && (meetingForm.controls['TimeZone'].dirty || meetingForm.controls['TimeZone'].touched)" class="text-danger list-unstyled">
+                                        <li class="fs-6" [innerHtml]="meetingFormValidation('Timezone', meetingForm.controls['TimeZone'].errors)"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <div formGroupName="Confidential">
+                                    <div class="form-group mb-3">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="checkbox" formControlName="IsPublic" name="IsPublic">
+                                            <label class="form-check-label">Is Public</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="form-group mb-3">
+                            <input type="text" class="form-control" formControlName="Restriction" placeholder="Restrictions" />
+                            <ul *ngIf="meetingForm.controls['Restriction'].invalid && (meetingForm.controls['Restriction'].dirty || meetingForm.controls['Restriction'].touched)" class="text-danger list-unstyled">
+                                <li class="fs-6" [innerHtml]="meetingFormValidation('Restriction', meetingForm.controls['Restriction'].errors)"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group mb-3">
+                        <textarea class="form-control" rows="4" formControlName="Story" placeholder="Tell people about this meet-n-pray"></textarea>
+                        <ul *ngIf="meetingForm.controls['Story'].invalid && (meetingForm.controls['Story'].dirty || meetingForm.controls['Story'].touched)" class="text-danger list-unstyled">
+                            <li class="fs-6" [innerHtml]="meetingFormValidation('Description', meetingForm.controls['Story'].errors)"></li>
+                        </ul>
+                    </div>
+                    <input type="hidden" formControlName="MeetingId" placeholder="MeetingId" />
+                </div>
+
+                <div class="row">
+                    <div class="form-group mb-3">
+                        <p class="fs-6 text-center">Location/Address</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div formGroupName="Location">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group mb-3">
+                                    <input type="text" class="form-control" formControlName="Street1" name="Street1" placeholder="Location/Street address">
+                                    <ul *ngIf="meetingForm.controls['Location']?.get('Street1')?.invalid && (meetingForm.controls['Location'].get('Street1')?.dirty || meetingForm.controls['Location']?.get('Street1')?.touched)" class="text-danger list-unstyled">
+                                        <li class="fs-6" [innerHtml]="meetingFormValidation('Street address', meetingForm.controls['Location'].get('Street1')?.errors)"></li>
+                                    </ul>
+                                </div>
+                                <input type="hidden" class="form-control" formControlName="Country">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="form-group mb-3">
+                                    <input type="text" class="form-control" formControlName="City" name="City" placeholder="City">
+                                    <ul *ngIf="meetingForm.controls['Location']?.get('City')?.invalid && (meetingForm.controls['Location'].get('City')?.dirty || meetingForm.controls['Location']?.get('City')?.touched)" class="text-danger list-unstyled">
+                                        <li class="fs-6" [innerHtml]="meetingFormValidation('City', meetingForm.controls['Location'].get('City')?.errors)"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group mb-3">
+                                    <input type="text" class="form-control" formControlName="StateProvince" name="StateProvince" placeholder="State/Province">
+                                    <ul *ngIf="meetingForm.controls['Location']?.get('StateProvince')?.invalid && (meetingForm.controls['Location'].get('StateProvince')?.dirty || meetingForm.controls['Location']?.get('StateProvince')?.touched)" class="text-danger list-unstyled">
+                                        <li class="fs-6" [innerHtml]="meetingFormValidation('State/Province', meetingForm.controls['Location'].get('StateProvince')?.errors)"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group mb-3">
+                                    <input type="text" class="form-control" formControlName="Zipcode" placeholder="Postal Code">
+                                    <ul *ngIf="meetingForm.controls['Location']?.get('Zipcode')?.invalid && (meetingForm.controls['Location'].get('Zipcode')?.dirty || meetingForm.controls['Location']?.get('Zipcode')?.touched)" class="text-danger list-unstyled">
+                                        <li class="fs-6" [innerHtml]="meetingFormValidation('Postal Code', meetingForm.controls['Location'].get('Zipcode')?.errors)"></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group mb-3">
+                        <input type="text" class="form-control" formControlName="Tags" placeholder="#tag meet-n-pray. A word start with # and should be comma separated: #healing,#redemption">
+                        <ul *ngIf="meetingForm.controls['Tags'].invalid && (meetingForm.controls['Tags'].dirty || meetingForm.controls['Tags'].touched)" class="text-danger list-unstyled">
+                            <li class="fs-6" [innerHtml]="meetingFormValidation('Tag', meetingForm.controls['Tags'].errors)"></li>
+                        </ul>
+                    </div>
+                    <div class="form-group mb-3">
+                        <p class="fs-6 text-center">Settings</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="row" formGroupName="Recurrence">
+                            <p>Recurrence</p>
+                            <div class="col-6">
+                                <div class="form-group mb-3">
+                                    <select class="form-select" formControlName="Recurring" name="Recurring" (change)="recurringChanged()">
+                                        <option value="">Select</option>
+                                        <option *ngFor="let recurrence of iRecurrence" [ngValue]="recurrence.RecurrenceId">{{recurrence.Recurrence}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group mb-3">
+                                    <input type="date" class="form-control" formControlName="RecurringEndDate" name="RecurringEndDate" maxlength="20" (change)="onRecurringDateChange()" placeholder="Enter Recurring End Date">
+                                    <!--   <ul *ngIf="meetingForm.controls['RecurringEndDate'].invalid && (meetingForm.controls['RecurringEndDate'].dirty || meetingForm.controls['RecurringEndDate'].touched)" class="text-danger list-unstyled">
+                                      <li class="fs-6" [innerHtml]="meetingFormValidation('Recurring End date', meetingForm.controls['RecurringEndDate'].errors)"></li>
+                                    </ul> -->
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="text-danger">{{meetingRecurringEndDateError}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="row" formGroupName="Reminders">
+                            <p>Reminders</p>
+                            <div class="col-6">
+                                <div class="form-group mb-3">
+                                    <select class="form-select" formControlName="Days" name="Days">
+                                        <option value="">Select Days</option>
+                                        <option *ngFor="let day of iDayReminder" [ngValue]="day.DayId">{{day.Day}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group mb-3">
+                                    <select class="form-select" formControlName="Hours" name="Hours">
+                                        <option value="">Select Hours</option>
+                                        <option *ngFor="let hourly of iHourlyReminder" [ngValue]="hourly.HourId">{{hourly.Hour}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </ng-template>
+    <!--End Prayer Meeting Form-->
+    <ng-template #signInToPostModal let-modal> 
+        <div class="modal-header">
+            <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+        </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group mb-3">
+                        <div class="fs-5">Sign in to react</div>
+                    </div>
+                </div>
+            </div>           
+   
+    </ng-template>
+</div>

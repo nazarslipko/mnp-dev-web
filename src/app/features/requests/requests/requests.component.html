@@ -1,0 +1,24 @@
+<div class="container mt-6">
+  <div class="row mt-3">
+    <div class="col text-center">
+      <p class="fs-5">Let us pray for each other.</p>
+    </div>
+  </div>
+</div>
+<div class="container pb-3 mt-3 flex-grow-1 d-flex flex-column flex-sm-row overflow-auto">
+  <div class="row flex-grow-sm-1 flex-grow-0">
+    <!--Removed stick-top on aside-->
+    <aside class="col-sm-2 text-dark flex-grow-sm-1 flex-shrink-1 flex-grow-0 pb-sm-0 pb-3">
+      <div class="border rounded-3 p-1">
+        <app-requests-siderbar ></app-requests-siderbar>
+      </div>
+    </aside>
+    <div class="col overflow-auto h-100">
+      <!--Removed bg-light on div-->
+      <!--   <div class="border rounded-3 p-3"> -->
+      <router-outlet>
+      </router-outlet>
+      <!--   </div> -->
+    </div>
+  </div>
+</div>

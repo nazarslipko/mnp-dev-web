@@ -1,0 +1,46 @@
+
+    <ul class="nav nav-pills flex-sm-column flex-row mb-auto justify-content-between  text-truncate">
+      <li class="nav-item">
+          <a class="nav-link  px-2 text-truncate" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active" (click)="navigateToHome('god')" routerLink="/prayers/letuspray/god" href="javascript:;">
+              <i class="fa-solid fa-lg fa-house-chimney px-2"></i>
+              <span class="d-none d-sm-inline">Home</span>
+          </a>
+      </li>
+      <li class="nav-item" >
+          <a class="nav-link  px-2 text-truncate" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active" (click)="navigateToHome('jesus')" routerLink="/prayers/letuspray/jesus" href="javascript:;">
+              <i class="fa-solid fa-lg fa-hand px-2"></i>
+              <span class="d-none d-sm-inline">Prayers</span>
+          </a>
+      </li>
+      <li class="nav-item" >
+          <a class="nav-link  px-2 text-truncate" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active" (click)="navigateToHome('devotions')" routerLink="/prayers/letuspray/devotions" href="javascript:;">
+              <i class="fa-solid fa-lg fa-list px-2"></i>
+              <span class="d-none d-sm-inline">Devotions</span>
+          </a>
+      </li>
+      <li class="nav-item" >
+          <a class="nav-link  px-2 text-truncate" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active" (click)="navigateToHome('praises')" routerLink="/prayers/letuspray/praises" href="javascript:;">
+              <i class="fa-solid fa-lg fa-quote-left px-2"></i>
+              <span class="d-none d-sm-inline">Praises</span>
+          </a>
+      </li>
+      <li class="nav-item" >
+          <a class="nav-link  px-2 text-truncate" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active" (click)="navigateToHome('requests')" href="javascript:;">
+              <i class="fa-solid fa-lg fa-comment me-2"></i>
+              <span class="d-none d-sm-inline">Requests</span>
+          </a>
+      </li>
+      <li class="nav-item" >
+          <a class="nav-link  px-2 text-truncate" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active" (click)="navigateToHome('meetings')" href="javascript:;">
+              <i class="fa-solid fa-lg fa-users me-2"></i>
+              <span class="d-none d-sm-inline">Meetings</span>
+          </a>
+      </li>
+      <li><hr></li>
+      <li class="nav-item" >
+          <a class="nav-link px-2 text-truncate" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active" [routerLink]="['prayersettings']" href="javascript:;">
+              <i class="fa-solid fa-lg fa-gears px-2"></i>
+              <span class="d-none d-sm-inline">Settings</span>
+          </a>
+      </li>
+    </ul>

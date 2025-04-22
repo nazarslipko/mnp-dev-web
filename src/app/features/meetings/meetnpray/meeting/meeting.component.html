@@ -1,0 +1,499 @@
+<div class="container mt-3 mb-3">
+    <div *ngIf="meeting">
+        <div class="card mb-3">
+            <div class="card-body">
+                <h2 class="card-title">{{meeting[0].Title}}</h2>
+                <p class="card-text">{{meeting[0].Story}}</p>
+                <dl class="small">
+                    <dt>
+                        <div class="fst-italic fw-light"> <i
+                                class="fa-solid fa-calendar-days"></i>&nbsp;{{meeting[0].StartDate
+                            |date: 'MMM d, y' }}&nbsp;-&nbsp;{{meeting[0].EndDate |date: 'MMM d, y'
+                            }}</div>
+                    </dt>
+                    <dt>
+                        <div class="fst-italic fw-light"><i
+                                class="fa-solid fa-clock"></i>&nbsp;{{meeting[0].StartTime}}&nbsp;-&nbsp;{{meeting[0].EndTime}}&nbsp;&nbsp;{{meeting[0].TimeZone}}
+                        </div>
+                    </dt>
+                    <dt>
+                        <div class="fst-italic fw-light"><i
+                                class="fa-solid fa-location-dot"></i>&nbsp;{{meeting[0].Street1}},&nbsp;{{meeting[0].City}},&nbsp;{{meeting[0].Country}}
+                        </div>
+                    </dt>
+                </dl>
+            </div>
+        </div>
+        <!--Start Accordion card-->
+        <!--<div class="card mb-3">
+            <div class="card-body">
+               
+                <div class="accordion  accordion-flush" id="accordionPanelsStayOpenExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#contributions" aria-expanded="true" aria-controls="contributions">
+                                Contribute
+                            </button>
+                        </h2>
+                        <div id="contributions" class="accordion-collapse collapse show">
+                            <div class="accordion-body">
+                                <strong>Contributions sections</strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#signup" aria-expanded="false" aria-controls="signup">
+                                Sign-ups
+                            </button>
+                        </h2>
+                        <div id="signup" class="accordion-collapse collapse show">
+                            <div class="accordion-body">
+                                <strong>This is Signup Section </strong>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#questionnaire" aria-expanded="false" aria-controls="questionnaire">
+                                Poll
+                            </button>
+                        </h2>
+                        <div id="questionnaire" class="accordion-collapse collapse show">
+                            <div class="accordion-body">
+                                <strong>Polls/questionnaire section</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>               
+            </div>
+        </div>-->
+        <!--End Accordion card-->
+
+        <!--Start fieldset card-->
+        <div class="card meetnpray-card-fieldset  " *ngIf="meetingComponents.length">
+            <div class="card-body" *ngFor="let component of meetingComponents">
+                <fieldset class="border position-relative mb-2"
+                    *ngIf="component?.IsPublished &&  component?.ComponentLookup[0]?.LookupName==='Signups'">
+                    <legend class="position-absolute bg-white">
+                        <div class="form-check">
+                            <label class="form-check-label" for="chkSignups">
+                                {{component.Title}}
+                            </label>
+                            <input class="form-check-input" type="radio" name="componentType" id="chkSignups"
+                                value="signups" (change)="onSelectComponent($event)"
+                                [checked]="selectedComponent === 'signups'">
+                        </div>
+                    </legend>
+
+                    <!--meetingSignupsComponents-->
+                    <form *ngIf="participantSignupsForm" novalidate [formGroup]="participantSignupsForm">                     
+                        <div class="row" *ngIf="meetingSignupsComponents.length">
+                            <div class="col-12">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="width: 80%"></th>
+                                            <th scope="col" style="width: 20%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor="let signup of meetingSignupsComponents?.[0]?.Signups">
+                                        <tr>
+                                            <td>
+                                                <div>
+                                                    <a href="javascript:0;" role="button"
+                                                        class="link-offset-2 link-underline link-underline-opacity-10"
+                                                        (click)="openSignupModal(signup, participantSignupModal)">
+                                                        {{signup.Title}}
+                                                        <span *ngIf="signup.Description"><i
+                                                                class="fa-solid fa-circle-info" data-bs-toggle="tooltip"
+                                                                data-bs-placement="top"
+                                                                title="{{signup.Description}}"></i> </span>
+                                                    </a>
+                                                </div>
+                                                <div *ngIf="signup.TimeSlot" class="fst-italic">
+                                                    <small>Time&nbsp;Slot:&nbsp;</small>
+                                                    <span>
+                                                        {{signup?.TimeSlot?.StartTime}}&nbsp;-&nbsp;{{signup?.TimeSlot?.EndTime}}
+                                                    </span>
+                                                </div>
+                                                <div class="fst-italic">
+                                                    <small>People&nbsp;Needed:&nbsp;</small>
+                                                    <span>
+                                                        {{signup?.PeopleNeeded}}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <!--<td>
+                                                <div>
+                                                   <a href="javascript:0;" role="button" class="link-offset-2 link-underline link-underline-opacity-10"
+                                                        (click)="openSignupModal(signup, participantSignupModal)">
+                                                        <i class="fa-solid fa-eye fa-lg"></i></a>
+                                                </div>
+                                            </td>-->
+                                            <td>
+                                                <div class="form-check form-check-inline">
+                                                    <label class="form-check-label"
+                                                        for="checkbox-{{signup.MeetingSignupId.toString()}}">
+                                                        <input class="form-check-input " type="checkbox"
+                                                            id="checkbox-{{signup.MeetingSignupId}}"
+                                                            formControlName="checkbox-{{signup.MeetingSignupId.toString()}}"
+                                                            name="checkbox-{{signup.MeetingSignupId.toString()}}"
+                                                            [value]="signup.MeetingSignupId">
+                                                    </label>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </form>
+                </fieldset>
+                <fieldset class="border position-relative mb-2"
+                    *ngIf="component?.IsPublished &&  component?.ComponentLookup[0]?.LookupName==='Contributions'">
+                    <legend class="position-absolute bg-white">
+                        <div class="form-check">
+                            <label class="form-check-label" for="chkContribution">
+                                {{component.Title}}
+                            </label>
+                            <input class="form-check-input" type="radio" name="componentType" id="chkContribution"
+                                value="contribution" (change)="onSelectComponent($event)"
+                                [checked]="selectedComponent === 'contribution'">
+                        </div>
+                    </legend>
+
+                    <form *ngIf="participantContributionForm" novalidate [formGroup]="participantContributionForm">
+                        <div class="row" *ngIf="meetingContributionComponents.length">
+                            <div class="col-12">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="width: 80%"></th>
+                                            <th scope="col" style="width: 20%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor="let contribution of meetingContributionComponents[0]?.Contributions">
+
+
+                                        <tr *ngIf="contribution.Category === 'Items'">
+                                            <td>
+                                                <div>
+                                                    <a href="javascript:0;" role="button"
+                                                        class="link-offset-2 link-underline link-underline-opacity-10"
+                                                        (click)="openContributorModal(contribution, participantContributionModal)">
+                                                        {{contribution.ItemName}}
+                                                        <span *ngIf="contribution.ShortDescription"><i
+                                                                class="fa-solid fa-circle-info" data-bs-toggle="tooltip"
+                                                                data-bs-placement="top"
+                                                                title="{{contribution.ShortDescription}}"></i> </span>
+                                                    </a>
+                                                </div>
+                                                <div class="fst-italic">
+                                                    <small>Needed:&nbsp;</small>
+                                                    <span>
+                                                        {{contribution.Quantity}}&nbsp;{{contribution.Measure}}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <!--<td>
+                                               <div>
+                                                    <a href="javascript:0;" role="button" class="btn bg-info-subtle"
+                                                        (click)="openContributorModal(contribution, participantContributionModal)">
+                                                        <i class="fa-solid fa-eye fa-lg"></i></a>
+                                                </div>
+                                            </td>-->
+                                            <td>
+                                                <div class="form-group mb-3">
+                                                    <input type="number" class="form-control"
+                                                        formControlName="{{contribution.MeetingContributionId}}"
+                                                        name="{{contribution.MeetingContributionId}}" min="0"
+                                                        max="{{contribution.Quantity}}" placeholder="Give Item" />
+                                                </div>
+                                                <div
+                                                    *ngIf="participantContributionForm.get(contribution.MeetingContributionId.toString())?.invalid && participantContributionForm.get(contribution.MeetingContributionId.toString())?.touched">
+
+                                                    {{participantContributionForm.get(contribution.MeetingContributionId.toString())?.errors|json}}
+                                                    <small class="text-danger"
+                                                        *ngIf="participantContributionForm.get(contribution.MeetingContributionId.toString())?.errors">Numbers
+                                                        only</small>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+                        </div>
+                    </form>
+
+                </fieldset>
+                <fieldset class="border position-relative mb-2"
+                    *ngIf="component?.IsPublished &&  component?.ComponentLookup[0]?.LookupName==='Questionnaire'">
+                    <legend class="position-absolute bg-white">
+                        <div class="form-check">
+                            <label class="form-check-label" for="chkQuestionnaire">
+                                {{component.Title}}
+                            </label>
+                            <input class="form-check-input" type="radio" name="componentType" id="chkQuestionnaire"
+                                value="questionnaire" (change)="onSelectComponent($event)"
+                                [checked]="selectedComponent === 'questionnaire'">
+                        </div>
+                    </legend>
+
+                    <form *ngIf="participantQuestionnaireForm" novalidate [formGroup]="participantQuestionnaireForm">
+                        <div class=" justify-content-start mb-3"
+                            *ngFor="let question of meetingQuestionnaireComponents[0]?.Questionnaire; let i = index">
+                            <label class="fs-6">{{ question.Question }}</label>
+                            <div [ngSwitch]="question.QuestionType">
+                                <!-- Radio buttons -->
+                                <div *ngSwitchCase="'SingleChoice'">
+                                    <div class="form-check form-check-inline"
+                                        *ngFor="let option of splitOptions(question.AnswerOptions); let j = index">
+                                        <label class="form-check-label "
+                                            for="radio-{{question.MeetingQuestionnaireId}}-{{option}}">
+                                            <input class="form-check-input px-2" type="radio"
+                                                id="radio-{{question.MeetingQuestionnaireId}}-{{option}}"
+                                                formControlName="{{question.MeetingQuestionnaireId}}"
+                                                name="{{question.MeetingQuestionnaireId}}" [value]="option">
+                                            {{ option}}
+                                        </label>
+                                    </div>
+                                    <div
+                                        *ngIf="participantQuestionnaireForm.get(question.MeetingQuestionnaireId.toString())?.invalid && participantQuestionnaireForm.get(question.MeetingQuestionnaireId.toString())?.touched">
+                                        <small class="text-danger">Please select an option</small>
+                                    </div>
+                                </div>
+                                <!-- checkboxes buttons -->
+                                <div *ngSwitchCase="'MultipleChoices'">
+                                    <div class="form-check form-check-inline"
+                                        *ngFor="let option of splitOptions(question.AnswerOptions); let j = index">
+                                        <label class="form-check-label"
+                                            for="checkbox-{{question.MeetingQuestionnaireId}}-{{option}}">
+                                            <input class="form-check-input" type="checkbox" [value]="option"
+                                                id="checkbox-{{question.MeetingQuestionnaireId}}-{{option}}"
+                                                [checked]="participantQuestionnaireForm.get(question.MeetingQuestionnaireId.toString())?.value.includes(option)"
+                                                (change)="onCheckboxChange($event, question.MeetingQuestionnaireId)">
+                                            {{ option }}
+                                        </label>
+                                    </div>
+                                    <div
+                                        *ngIf="participantQuestionnaireForm.get(question.MeetingQuestionnaireId.toString())?.invalid && participantQuestionnaireForm.get(question.MeetingQuestionnaireId.toString())?.touched">
+                                        <small class="text-danger">Please select at least one option</small>
+                                    </div>
+                                </div>
+                                <!-- true or false option -->
+                                <div *ngSwitchCase="'TrueFalse'">
+                                    <div class="form-check form-check-inline"
+                                        *ngFor="let option of splitOptions(question.AnswerOptions); let j = index">
+                                        <label class="form-check-label"
+                                            for="radio-{{question.MeetingQuestionnaireId}}-{{option}}">
+                                            <!--<input type="radio" [value]="option" [formControlName]="i" />-->
+                                            <input class="form-check-input" type="radio"
+                                                id="radio-{{question.MeetingQuestionnaireId}}-{{option}}"
+                                                formControlName="{{question.MeetingQuestionnaireId}}"
+                                                name="{{question.MeetingQuestionnaireId}}" [value]="option">
+                                            {{ option }}
+                                        </label>
+                                    </div>
+                                    <div
+                                        *ngIf="participantQuestionnaireForm.get(question.MeetingQuestionnaireId.toString())?.invalid && participantQuestionnaireForm.get(question.MeetingQuestionnaireId.toString())?.touched">
+                                        <small class="text-danger">Please select an option</small>
+                                    </div>
+                                </div>
+                                <!-- dropdownlist option -->
+
+                                <div *ngSwitchCase="'Dropdownlist'">
+                                    <div class="form-group col-4 mb-3">
+                                        <select class="form-select"
+                                            formControlName="{{question.MeetingQuestionnaireId}}"
+                                            name="{{question.MeetingQuestionnaireId}}">
+                                            <option value="">Choose Answer</option>
+                                            <option
+                                                *ngFor="let option of splitOptions(question.AnswerOptions); let j = index"
+                                                [value]="option">{{option}}</option>
+                                        </select>
+                                    </div>
+                                    <div
+                                        *ngIf="participantQuestionnaireForm.get(question.MeetingQuestionnaireId.toString())?.invalid && participantQuestionnaireForm.get(question.MeetingQuestionnaireId.toString())?.touched">
+                                        <small class="text-danger">Please select an option</small>
+                                    </div>
+                                </div>
+                                <!-- textbox  -->
+                                <div *ngSwitchCase="'ShortAnswer'">
+                                    <div class="form-group mb-3">
+                                        <input type="text" class="form-control"
+                                            formControlName="{{question.MeetingQuestionnaireId}}"
+                                            name="{{question.MeetingQuestionnaireId}}" placeholder="Write answer">
+                                    </div>
+                                    <div
+                                        *ngIf="participantQuestionnaireForm.get(question.MeetingQuestionnaireId.toString())?.invalid && participantQuestionnaireForm.get(question.MeetingQuestionnaireId.toString())?.touched">
+                                        <small
+                                            *nfIf="questionnaireParticipantForm.get(question.MeetingQuestionnaireId)?.hasError('required')"
+                                            class="text-danger">This question is required</small>
+                                        <small
+                                            *nfIf="questionnaireParticipantForm.get(question.MeetingQuestionnaireId)?.hasError('maxlength')"
+                                            class="text-danger">Maximum 60 characters are required</small>
+                                    </div>
+                                </div>
+                                <!-- textarea -->
+                                <div *ngSwitchCase="'LongAnswer'">
+                                    <div class="form-group mb-3">
+                                        <textarea class="form-control" rows="2"
+                                            formControlName="{{question.MeetingQuestionnaireId}}"
+                                            name="{{question.MeetingQuestionnaireId}}"
+                                            placeholder="Write Answer"></textarea>
+                                    </div>
+                                    <div
+                                        *ngIf="participantQuestionnaireForm.get(question.MeetingQuestionnaireId.toString())?.invalid && participantQuestionnaireForm.get(question.MeetingQuestionnaireId.toString())?.touched">
+                                        <small
+                                            *nfIf="questionnaireParticipantForm.get(question.MeetingQuestionnaireId)?.hasError('required')"
+                                            class="text-danger">This question is required</small>
+                                        <small
+                                            *nfIf="questionnaireParticipantForm.get(question.MeetingQuestionnaireId)?.hasError('maxlength')"
+                                            class="text-danger">maximum 150 characters are required</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--</div>-->
+                        </div>
+
+                    </form>
+                </fieldset>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-primary float-end" (click)="onSubmit()">{{submitButtonName}}</button>
+            </div>
+        </div>
+        <!--End fieldset card-->
+
+        <!--Contribution: Modal-->
+        <ng-template #participantContributionModal let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title text-centered" id="modal-basic-title">{{contributionTitle}} Contributions</h4>
+
+                <button type="button" class="btn-close" aria-label="Close" (click)="onCloseModal()"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row" *ngIf="meetingContributionContribitors.length">
+
+                    <div class="col-12">
+
+                        <div class="card">
+                            <div class="card-header">
+                                <span>{{totalContributionQuantity}} contributed</span>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="width: 55%">Contributor</th>
+                                            <th scope="col" style="width: 25%">Quantity</th>
+                                            <th scope="col" style="width: 20%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody *ngFor="let contributor of meetingContributionContribitors">
+                                        <tr>
+                                            <td>{{contributor?.Contact[0]?.FirstName}}&nbsp;
+                                                {{contributor?.Contact[0]?.LastName}}</td>
+                                            <td>{{contributor.Quantity}}</td>
+                                            <td>
+                                                <button class="btn btn-sm " data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" data-bs-title="Cancel contribution"
+                                                    (click)="cancelContribution(contributor)"><i
+                                                        class="fa-solid fa-circle-xmark fa-lg"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="!meetingContributionContribitors.length">
+                    <div class="col-12">
+                        <p>{{norecordfound}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-warning" (click)="onCloseModal()">Close</button>
+            </div>
+        </ng-template>
+        <!--End Contribution-->
+
+        <!--Signup: Modal-->
+        <ng-template #participantSignupModal let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title text-centered" id="modal-basic-title">{{signupTitle}} Signup</h4>
+                <button type="button" class="btn-close" aria-label="Close" (click)="onCloseModal()"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="row" *ngIf="meetingSignupParticipants.length">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div>
+                                            <strong>Time&nbsp;Slot:&nbsp;</strong> <span
+                                                [innerHTML]="signupTimeSlot"></span>
+                                        </div>
+                                        <span>
+                                            {{totalSignups}} signedup
+                                        </span>
+
+                                    </div>
+                                    <div class="card-body">
+                                        <table class="table table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col" style="width: 70%">Name</th>
+                                                    <th scope="col" style="width: 30%"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody
+                                                *ngFor="let participant of meetingSignupParticipants?.[0]?.signupParticipants">
+                                                <tr>
+                                                    <td>{{participant?.Contact[0]?.FirstName}}&nbsp;
+                                                        {{participant?.Contact[0]?.LastName}}</td>
+                                                    <td>
+                                                        <button class="btn btn-sm " (click)="cancelSignup(participant)"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            title="Cancel signup"><i
+                                                                class="fa-solid fa-circle-xmark fa-lg"></i></button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="!meetingSignupParticipants.length">
+                    <div class="col-12">
+                        <p>{{norecordfound}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-warning" (click)="onCloseModal()">Close</button>
+            </div>
+        </ng-template>
+        <!--End Signup-->
+
+    </div>
+    <div class="row" *ngIf="!meeting">
+        <p> Meeting not found</p>
+    </div>
+</div>

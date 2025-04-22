@@ -1,0 +1,77 @@
+<div class="container">
+    <div class="row">
+        <h2 class="mt-4 text-center text-primary">Roles</h2>
+        <p>Manage roles</p>
+        <div class="table-responsive">
+            <div class="col-md-4">
+                <button type="button" class="btn btn-primary" (click)="addEditRole('0', roleModal)">New Role</button>
+            </div>
+            <table class="table table-stripe table-hover">
+                <thead><tr><th>Name</th> <th>Description</th><th></th></tr></thead>
+                <tbody>
+                    <tr *ngFor="let role of roles">
+                        <td>{{role.Name}}</td>
+                        <td>{{role.Description}}</td>
+                        <td><button class="btn btn-info btn-sm" (click)="addEditRole(role.RoleId, roleModal)">Edit</button></td>
+                        <td><button class="btn btn-danger btn-sm" (click)="yesDeleteRole(role.RoleId, role.Name, deleteRoleModal)">Delete</button></td>
+                    </tr>
+                    <tr *ngIf="!roles?.length">
+                        <td>&nbsp;</td>
+                        <td colspan="6">No Records Found</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <!-- Modal Add/Edit -->
+        <ng-template #roleModal let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">Role</h4>
+                <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+            </div>
+            <form *ngIf="roleForm" [formGroup]="roleForm" (ngSubmit)="saveRole()" novalidate>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group mb-3">
+                            <input type="text" class="form-control" formControlName="Name" placeholder="Enter Role Name" autocomplete="false" />
+                            <ul *ngIf="roleForm.controls['Name'].invalid && (roleForm.controls['Name'].dirty || roleForm.controls['Name'].touched)" class="text-danger list-unstyled">
+                                <li class="fs-6" [innerHtml]="roleFormErrorMessage('Role name', roleForm.controls['Name'].errors)"></li>
+                            </ul>
+                        </div>
+                        <div class="form-group mb-3">
+                            <textarea class="form-control" rows="4" formControlName="Description" placeholder="Tell people what this role is for" autocomplete="false"></textarea>
+                            <ul *ngIf="roleForm.controls['Description'].invalid && (roleForm.controls['Description'].dirty || roleForm.controls['Description'].touched)" class="text-danger list-unstyled">
+                                <li class="fs-6" [innerHtml]="roleFormErrorMessage('Description', roleForm.controls['Description'].errors)"></li>
+                            </ul>
+                        </div>
+                        <input type="hidden" formControlName="RoleId" placeholder="RoleId" /> 
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!--   <button type="button" class="btn btn-outline-dark" (click)="modal.close(roleForm)">Save</button> -->
+                    <button class="btn btn-success" >Submit</button>
+                </div>
+            </form>
+        </ng-template>
+        <!-- Modal -->
+        <!--Delete Modal-->
+        <ng-template #deleteRoleModal let-modal>
+            <div class="modal-header">
+                <h4 class="modal-title" id="delete-role-modal">Role</h4>
+                <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <input type="hidden" id="roleId" placeholder="RoleId" value="{{deleteRoleId}}" />
+                    <p>Are you sure you want to remove <strong>"{{deleteRoleName }}" </strong> role?</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" (click)="deleteRole()">
+                    Yes
+                </button>
+            </div>
+        </ng-template>
+    </div>
+</div>

@@ -1,0 +1,70 @@
+<header>
+    <nav class="navbar navbar-expand-lg bg-info rounded" aria-label="Thirteenth navbar example">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample11" aria-controls="navbarsExample11" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse d-lg-flex" id="navbarsExample11">
+                <a class="navbar-brand col-lg-3 me-0" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active" routerLink="/howtopray" href="#howtopray">Meet-N-Pray</a>
+                <ul class="navbar-nav col-lg-5 col-md-5  justify-content-lg-center">
+                    <li class="nav-item ">
+                        <a class="nav-link active" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active" routerLink="/howtopray" href="#howtopray" aria-current="page">How to Pray</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active" routerLink="/about" href="#about">About</a></li>
+
+                    <li class="nav-item"><a class="nav-link" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active" routerLink="/roles" href="#role">Roles</a></li>
+
+                    <!--      <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Action</a></li>
+                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                  </ul>
+                </li> -->
+                </ul>
+
+                <!-- <div class="d-lg-flex col-lg-3 justify-content-lg-end">
+              <button class="btn btn-primary">Button</button>
+            </div> -->
+            </div>
+            <form [formGroup]="loginForm" class="navbar-brand col-lg-6 col-md-6 col-sm-12" (ngSubmit)="submitLogin()">
+                <div class="row form-inline g-4">
+                    <div class="col-auto">
+                        <input type="email" class="form-control form-control-sm" aria-describedby="emailHelp" placeholder="Enter email" required formControlName="Email" name="Email">
+                        <ul *ngIf="loginForm.controls['Email'].invalid && (loginForm.controls['Email'].dirty || loginForm.controls['Email'].touched)" class="text-danger list-unstyled">
+                            <li class="fs-6" [innerHtml]="loginFormErrorMessage('Email', loginForm.controls['Email'].errors)"></li>
+                        </ul>
+                    </div>
+                    <div class="col-auto">
+                        <input type="password" class="form-control form-control-sm" placeholder="Password" formControlName="Password" name="Password" required>
+                        <ul *ngIf="loginForm.controls['Password'].invalid && (loginForm.controls['Password'].dirty || loginForm.controls['Password'].touched)" class="text-danger list-unstyled">
+                            <li class="fs-6" [innerHtml]="loginFormErrorMessage('Password', loginForm.controls['Password'].errors)"></li>
+                        </ul>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-auto">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" formControlName="StaySignedIn" name="StaySignedIn" [value]="false">
+                            <label class="form-check-label">Stay Signed In</label>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="form-group">
+                            <a class="text-decoration-none" href="javascript:0;">Forgot Password</a>
+                        </div>
+                    </div>
+                    <div class="mb-1 text-danger">
+                        <small>{{message}}</small>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </nav>
+</header>
+
+

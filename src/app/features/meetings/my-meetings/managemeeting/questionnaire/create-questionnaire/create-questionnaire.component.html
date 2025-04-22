@@ -1,0 +1,291 @@
+<form *ngIf="questionnaireForm" novalidate [formGroup]="questionnaireForm">
+  <div class="position-relative">
+    <div class="modal-header">
+      <h4 class="modal-title">{{ modalTitle }}&nbsp;Questionnaire</h4>
+      <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="activeModal.dismiss('Cross click')"
+      ></button>
+    </div>
+    <div class="modal-body">
+      <div class="card mb-3">
+        <div class="card-header">
+          <span class="text-muted fw-bold">{{ subTitle }}</span>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col">
+              <div class="form-group mb-3">
+                <label class="fs-6">Question Type</label>
+                <select
+                  class="form-select"
+                  formControlName="QuestionType"
+                  *ngIf="questionTypes.length > 0"
+                >
+                  <option value="">Select</option>
+                  <option
+                    *ngFor="let questionType of questionTypes"
+                    [ngValue]="questionType.QuestionTypeId"
+                  >
+                    {{ questionType.QuestionType }}
+                  </option>
+                </select>
+                <ul
+                  *ngIf="
+                    questionnaireForm.controls['QuestionType']?.invalid &&
+                    (questionnaireForm.controls['QuestionType']?.dirty ||
+                      questionnaireForm.controls['QuestionType']?.touched)
+                  "
+                  class="text-danger list-unstyled"
+                >
+                  <li
+                    class="fs-6"
+                    [innerHtml]="
+                      questionnaireFormValidation(
+                        'Question Type',
+                        questionnaireForm.controls['QuestionType'].errors
+                      )
+                    "
+                  ></li>
+                </ul>
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-group mb-3">
+                <label class="fs-6">Question Number</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="SequenceNumber"
+                  name="SequenceNumber"
+                  min="1"
+                  step="1"
+                  max="10"
+                  placeholder="Enter Sequence number "
+                />
+                <ul
+                  *ngIf="
+                    questionnaireForm.controls['SequenceNumber'].invalid &&
+                    (questionnaireForm.controls['SequenceNumber'].dirty ||
+                      questionnaireForm.controls['SequenceNumber'].touched)
+                  "
+                  class="text-danger list-unstyled"
+                >
+                  <li
+                    class="fs-6"
+                    [innerHtml]="
+                      questionnaireFormValidation(
+                        'Sequence Number',
+                        questionnaireForm.controls['SequenceNumber'].errors
+                      )
+                    "
+                  ></li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="col">
+              <div class="form-group mb-3">
+                <label class="fs-6"></label>
+                <div class="form-check form-switch">
+                  <label class="form-check-label">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      formControlName="Required"
+                      name="Required"
+                    />
+                    Required
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group mb-3">
+              <textarea
+                col="2"
+                type="text"
+                class="form-control"
+                formControlName="Question"
+                placeholder="Write Question"
+              >
+              </textarea>
+              <ul
+                *ngIf="
+                  questionnaireForm.controls['Question'].invalid &&
+                  (questionnaireForm.controls['Question'].dirty ||
+                    questionnaireForm.controls['Question'].touched)
+                "
+                class="text-danger list-unstyled"
+              >
+                <li
+                  class="fs-6"
+                  [innerHtml]="
+                    questionnaireFormValidation(
+                      'Question',
+                      questionnaireForm.controls['Question'].errors
+                    )
+                  "
+                ></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="!questionTypeSelectedValue">
+            <div class="form-group mb-3">
+              <textarea
+                type="text"
+                col="2"
+                class="form-control"
+                formControlName="AnswerOptions"
+                name="AnswerOptions"
+                placeholder="Write question's answers: Separate multiple answers with comma(,)"
+              >
+              </textarea>
+              <ul
+                *ngIf="
+                  questionnaireForm.controls['AnswerOptions'].invalid &&
+                  (questionnaireForm.controls['AnswerOptions'].dirty ||
+                    questionnaireForm.controls['AnswerOptions'].touched)
+                "
+                class="text-danger list-unstyled"
+              >
+                <li
+                  class="fs-6"
+                  [innerHtml]="
+                    questionnaireFormValidation(
+                      'AnswerOptions',
+                      questionnaireForm.controls['AnswerOptions'].errors
+                    )
+                  "
+                ></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group mb-3">
+              <textarea
+                type="text"
+                cols="2"
+                class="form-control"
+                formControlName="Description"
+                placeholder="Write question's instructions"
+              >
+              </textarea>
+              <ul
+                *ngIf="
+                  questionnaireForm.controls['Description'].invalid &&
+                  (questionnaireForm.controls['Description'].dirty ||
+                    questionnaireForm.controls['Description'].touched)
+                "
+                class="text-danger list-unstyled"
+              >
+                <li
+                  class="fs-6"
+                  [innerHtml]="
+                    questionnaireFormValidation(
+                      'Description',
+                      questionnaireForm.controls['Description'].errors
+                    )
+                  "
+                ></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-auto">
+              <div class="row">
+                <div class="col-auto">
+                  <input
+                    type="hidden"
+                    formControlName="MeetingId"
+                    name="MeetingId"
+                  />
+                  <input
+                    type="hidden"
+                    formControlName="MeetingComponentId"
+                    name="MeetingComponentId"
+                  />
+                  <input
+                    type="hidden"
+                    formControlName="MeetingQuestionnaireId"
+                    name="MeetingQuestionnaireId"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-cancel btn-warning"
+        (click)="activeModal.close('Close click')"
+      >
+        Cancel
+      </button>
+
+      <button
+        *ngIf="questionnaireForm.controls['MeetingQuestionnaireId'].value > 0"
+        type="button"
+        class="btn btn-danger"
+        [disabled]="questionnaireForm.invalid"
+        (click)="
+          openConfirmDeleteModal(
+            questionnaireForm.controls['MeetingQuestionnaireId'].value
+          )
+        "
+      >
+        Delete
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary"
+        [disabled]="questionnaireForm.invalid || isSubmitted"
+        (click)="onCreateUpdateAndCloseListingContributionItems()"
+      >
+        Save and Close
+      </button>
+      <button
+        *ngIf="questionnaireForm.controls['MeetingQuestionnaireId'].value === 0"
+        type="button"
+        class="btn btn-primary"
+        [disabled]="questionnaireForm.invalid || isSubmitted"
+        (click)="onSaveAndListMoreContributionItems()"
+      >
+        Save and List More Questions
+      </button>
+    </div>
+  </div>
+</form>
+
+<!--Delete Lower Court Modal-->
+<ng-template #confirmDelete let-modal>
+  <div class="modal-body">
+    <p class="fs-5">Are you sure you want to delete this contribution item?</p>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="closeDeleteMeetingModal(modal)"
+    >
+      No
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="confirmDeleteMeeting(modal)"
+    >
+      Yes
+    </button>
+  </div>
+</ng-template>

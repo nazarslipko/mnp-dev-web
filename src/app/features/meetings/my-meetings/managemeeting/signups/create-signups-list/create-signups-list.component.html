@@ -1,0 +1,200 @@
+<form *ngIf="signupsForm" novalidate [formGroup]="signupsForm">
+  <div class="position-relative">
+    <div class="modal-header">
+      <h4 class="modal-title">{{ modalTitle }}&nbsp;Sheet</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <div class="card mb-3">
+        <div class="card-header">
+          <span class="text-muted fw-bold">{{ subTitle }}</span>
+        </div>
+        <div class="card-body">
+          <!--<div class="row">
+                        <div class="form-group mb-3">
+                            <div class="form-check form-switch">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox"
+                                        formControlName="IsMonetaryContribution" name="IsMonetaryContribution"> Monetary
+                                    Contribution
+                                </label>
+                            </div>
+                        </div>
+                    </div> -->
+
+          <div class="row">
+            <div class="form-group mb-3">
+              <input type="text" class="form-control" formControlName="Title" name="Title"
+                placeholder="Enter Title i.e task/role name" />
+              <ul *ngIf="
+                  signupsForm.controls['Title'].invalid &&
+                  (signupsForm.controls['Title'].dirty ||
+                    signupsForm.controls['Title'].touched)
+                " class="text-danger list-unstyled">
+                <li class="fs-6" [innerHtml]="
+                    contributionFormValidation(
+                      'Title',
+                      signupsForm.controls['Title'].errors
+                    )
+                  "></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-auto">
+              <div class="form-group mb-3">
+                <label class="fs-6">People Needed</label>
+                <input type="number" class="form-control" formControlName="PeopleNeeded" name="PeopleNeeded"
+                  minlength="1" placeholder="Enter People Needed" />
+                <ul *ngIf="
+                    signupsForm.controls['PeopleNeeded'].invalid &&
+                    (signupsForm.controls['PeopleNeeded'].dirty ||
+                      signupsForm.controls['PeopleNeeded'].touched)
+                  " class="text-danger list-unstyled">
+                  <li class="fs-6" [innerHtml]="
+                      contributionFormValidation(
+                        'People needed',
+                        signupsForm.controls['PeopleNeeded'].errors
+                      )
+                    "></li>
+                </ul>
+              </div>
+            </div>
+            <div class="col">
+              <div class="row" formGroupName="TimeSlot">
+                <div class="col">
+                  <!--Start Time-->
+                  <div class="form-group mb-3">
+                    <label class="fs-6">Start Time</label>
+
+                    <select class="form-select" formControlName="StartTime" (change)="onTimeChange()"
+                      *ngIf="iTime.length>0">
+                      <option value="">Select</option>
+                      <option *ngFor="let time of iTime" [ngValue]="time.TimeId">
+                        {{ time.Time }}
+                      </option>
+                    </select>
+                    <ul *ngIf="
+                    signupsForm.controls['TimeSlot'].get('StartTime')
+                      ?.invalid &&
+                    (signupsForm.controls['TimeSlot'].get('StartTime')?.dirty ||
+                      signupsForm.controls['TimeSlot'].get('StartTime')
+                        ?.touched)
+                  " class="text-danger list-unstyled">
+                      <li class="fs-6" [innerHtml]="
+                      contributionFormValidation(
+                        'Start Time',
+                        signupsForm.controls['TimeSlot'].get('StartTime')
+                          ?.errors
+                      )
+                    "></li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="col">
+                  <!--End Time-->
+                  <div class="form-group mb-3">
+                    <label class="fs-6">End Time</label>
+                    <select class="form-select" formControlName="EndTime" (change)="onTimeChange()"
+                      *ngIf="iTime.length>0">
+                      <option value="">Select</option>
+                      <option *ngFor="let time of iTime" [ngValue]="time.TimeId">
+                        {{ time.Time }}
+                      </option>
+                    </select>
+                    <ul *ngIf="
+                    signupsForm.controls['TimeSlot'].get('EndTime')?.invalid &&
+                    (signupsForm.controls['TimeSlot'].get('EndTime')?.dirty ||
+                      signupsForm.controls['TimeSlot'].get('EndTime')?.touched)
+                  " class="text-danger list-unstyled">
+                      <li class="fs-6" [innerHtml]="
+                      contributionFormValidation(
+                        'End Time',
+                        signupsForm.controls['TimeSlot'].get('EndTime')?.errors
+                      )
+                    "></li>
+                    </ul>
+                  </div>
+
+                </div>
+                <div class="mb-3">
+                  <div class="text-danger">{{ signupTimeError }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="form-group mb-3">
+              <textarea type="text" cols="1" class="form-control" formControlName="Description"
+                placeholder="Enter description">
+              </textarea>
+              <ul *ngIf="
+                  signupsForm.controls['Description'].invalid &&
+                  (signupsForm.controls['Description'].dirty ||
+                    signupsForm.controls['Description'].touched)
+                " class="text-danger list-unstyled">
+                <li class="fs-6" [innerHtml]="
+                    contributionFormValidation(
+                      'Description',
+                      signupsForm.controls['Description'].errors
+                    )
+                  "></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-auto">
+              <div class="row">
+                <div class="col-auto">
+                  <input type="hidden" formControlName="MeetingId" name="MeetingId" />
+                  <input type="hidden" formControlName="MeetingComponentId" name="MeetingComponentId" />
+                  <input type="hidden" formControlName="MeetingSignupId" name="MeetingSignupId" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-cancel btn-warning" (click)="activeModal.close('Close click')">
+        Cancel
+      </button>
+
+      <button *ngIf="this.signupsForm.controls['MeetingSignupId'].value > 0" type="button" class="btn btn-danger"
+        [disabled]="this.signupsForm.invalid" (click)="
+          openConfirmDeleteModal(
+            this.signupsForm.controls['MeetingSignupId'].value
+          )
+        ">
+        Delete
+      </button>
+      <button type="button" class="btn btn-primary" [disabled]="this.signupsForm.invalid || isSubmitted"
+        (click)="onCreateUpdateAndCloseListingContributionItems()">
+        Save and Close
+      </button>
+      <button *ngIf="this.signupsForm.controls['MeetingSignupId'].value === 0" type="button" class="btn btn-primary"
+        [disabled]="this.signupsForm.invalid || isSubmitted" (click)="onSaveAndListMoreSignups()">
+        Save and List More
+      </button>
+    </div>
+  </div>
+</form>
+
+<!--Delete Lower Court Modal-->
+<ng-template #confirmDelete let-modal>
+  <div class="modal-body">
+    <p class="fs-5">Are you sure you want to delete this signup item?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeDeleteMeetingModal(modal)">
+      No
+    </button>
+    <button type="button" class="btn btn-primary" (click)="confirmDeleteMeeting(modal)">
+      Yes
+    </button>
+  </div>
+</ng-template>

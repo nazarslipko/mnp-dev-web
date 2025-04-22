@@ -1,0 +1,67 @@
+/* You can add global styles to this file, and also import other style files */
+/*
+@import "~@fortawesome/fontawesome-free/css/all.css";*/
+
+
+
+.nav-tabs .nav-link,
+.nav-tabs .nav-item.show .nav-link {
+    border-color: #303031;
+    background-color: #d2d3d5;
+}
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+    color: #303031;
+    border-left: 1px solid #303031;
+    border-top: 1px solid #303031;
+    border-right: 1px solid #303031;
+    border-bottom: none;
+
+}
+
+.table {
+    tbody {
+        font-weight: 400;
+    }
+}
+
+.nav-tabs .nav-link:hover,
+.nav-tabs .nav-item.show .nav-link {
+    color: #110101;
+    background-color: rgb(163, 162, 162);
+
+}
+
+
+.ngb-patination-container select {
+    height: 38px;
+}
+
+.action_buttons {
+    background-color: #73b3e7 !important;
+}
+.meetnpray-tab-panel {
+    .nav-link {
+        border-radius: 0;
+        color: #595b5d;
+        font-size: 13px;
+        font-weight: 500;
+        border-bottom: 2px solid #303031;
+        border-left: none;
+        border-top: none;
+        border-right: none;
+    }
+    .nav-link.active {
+        background-color: #FFF;
+        border-left: 1px solid #303031;
+        border-top: 1px solid #303031;
+        border-right: 1px solid #303031;
+        border-bottom: none;
+    }
+    .tab-content {     
+        min-height: 350px;
+       
+    }
+   
+}

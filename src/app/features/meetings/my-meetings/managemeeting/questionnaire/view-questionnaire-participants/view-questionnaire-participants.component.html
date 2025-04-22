@@ -1,0 +1,132 @@
+<div class="position-relative">
+    <div class="modal-header">
+        <h4 class="modal-title">{{ modalTitle }} Questionnaire Participants</h4>
+        <button type="button" class="btn-close" aria-label="Close"
+            (click)="activeModal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body  meetnpray-tab-panel card">
+        <nav>
+            <div class="nav nav-tabs nav-justified" role="tablist">
+                <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#allParticipants" type="button"
+                    role="tab" aria-selected="true">Questionnaire</a>
+                <a class="nav-link" data-bs-toggle="tab" data-bs-target="#participants" type="button" role="tab"
+                    aria-selected="false">Participants </a>
+            </div>
+        </nav>
+
+        <div class="tab-content pt-3">
+            <div class="tab-pane fade show active" id="allParticipants" role="tabpanel"
+                aria-labelledby="all-participants-tab">
+                <!--All Participants-->
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <!-- <span class="text-muted fw-bold">Participants</span>-->
+                    </div>
+                    <div class="card-body">
+                        <div class="row" *ngIf="questionnaireParticipants?.length">
+                            <div class="col-12">
+                                <table class="table table-striped table-bordered border-primary table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="width: 30%">participant</th>
+                                            <th scope="col" style="width: 70%">Question/Answer</th>                                           
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let participant of  questionnaireParticipants">
+                                            <td>
+                                                <div class="justify-content-center" *ngIf="participant.Contact">
+                                                    <p>
+                                                        {{ participant.Contact[0].FirstName }}&nbsp;{{
+                                                        participant.Contact[0].LastName
+                                                        }}
+                                                    </p>
+                                                </div>
+                                            </td>
+                                            <td *ngIf="participant.Questionnaire">
+                                                <div class=" row">
+                                                    <div clas="col-12">
+                                                        <div class="fw-bolder">
+                                                            {{ participant?.Questionnaire?.[0]?.Question }}
+                                                        </div>
+                                                        <div class="text-muted fst-italic">
+                                                            Answer:&nbsp;{{ participant?.QuestionAnswer}}
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </td>
+                                           
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!--Display only when components has not any items-->
+                        <div class="row" *ngIf="questionnaireParticipants?.length == 0">
+                            <p>No Questionnaire Participants are found.</p>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="tab-pane" id="participants" role="tabpanel" aria-labelledby="participants-tab">
+                <!--individual participants-->
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <!-- <span class="text-muted fw-bold">Participants</span>-->
+
+                    </div>
+                    <div class="card-body">
+                        <div class="row" *ngIf="questionnaireParticipantNames?.length">
+                            <div class="col-12">
+                                <table class="table table-striped table-bordered border-primary table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="width: 70%">participant</th>
+                                            <th scope="col" style="width: 30%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let participant of  questionnaireParticipantNames">
+                                            <td *ngIf="participant.MeetingComponentId">
+                                                <div class="justify-content-center" *ngIf="participant.Contact">
+                                                    <a href="javascript:0;" class="text-decoration-none"
+                                                        (click)="openQuestionnaireParticipantModal(participant)">
+                                                        {{ participant.Contact[0].FirstName }}&nbsp;{{
+                                                        participant.Contact[0].LastName
+                                                        }}
+                                                    </a>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-sm btn-outline-primary justify-content-center"
+                                                    (click)="SendEmail( participant.Contact?.[0]?.Email??'None', modalTitle )">
+                                                    <i class="fas fa-envelope fa-lg"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!--Display only when components has not any items-->
+                        <div class="row" *ngIf="questionnaireParticipantNames?.length == 0">
+                            <p>No Questionnaire Participants are found.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-cancel btn-warning" (click)="activeModal.close('Close click')">
+            Cancel
+        </button>
+        <button type="button" *ngIf="questionnaireParticipants.length > 0" class="btn btn-primary"
+            [disabled]="questionnaireParticipants.length == 0" (click)="onDownloadCSV()">
+            Download
+        </button>
+    </div>
+</div>

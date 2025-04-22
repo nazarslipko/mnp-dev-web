@@ -1,0 +1,46 @@
+<ul class="nav nav-pills flex-sm-column flex-row mb-auto justify-content-between  text-truncate">
+    <li class="nav-item">
+        <a href="javascript:;" class="nav-link  px-2 text-truncate" [routerLinkActiveOptions]="{exact:true}"
+            routerLinkActive="active" routerLink="/prayers/letuspray/god">
+            <i class="fa-solid fa-lg fa-house-chimney px-2"></i>
+            <span class="d-none d-sm-inline">Home</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="javascript:;" class="nav-link  px-2 text-truncate" [routerLinkActiveOptions]="{exact:true}"
+            routerLinkActive="active" routerLink="/community/meetings">
+            <i class="fa-solid fa-lg fa-users px-2"></i>
+            <span class="d-none d-sm-inline">Meetings</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="javascript:;" class="nav-link  px-2 text-truncate" [routerLinkActiveOptions]="{exact:true}"
+            routerLinkActive="active" routerLink="/requests/prayers">
+            <i class="fa-solid fa-lg fa-comment me-2"></i>
+            <span class="d-none d-sm-inline">Requests</span>
+        </a>
+    </li>
+    <li>
+        <hr>
+    </li>
+    <!--<li class="nav-item">
+        <a href="javascript:;" class="nav-link px-2 text-truncate" [routerLinkActiveOptions]="{exact:true}"
+            routerLinkActive="active" [routerLink]="['settings']">
+            <i class="fa-solid fa-lg fa-gears px-2"></i>
+            <span class="d-none d-sm-inline">Settings</span>
+        </a>
+    </li> -->
+
+    <li class="nav-item">
+        <!--<a href="javascript:;" class="nav-link px-2 text-truncate" (click)="goToMyMeetings()"
+            [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active">
+            <i class="fa-solid fa-lg fa-gears px-2"></i>
+            <span class="d-none d-sm-inline">My Meetings</span>
+        </a> -->
+        <a href="javascript:;" class="nav-link px-2 text-truncate" [routerLinkActiveOptions]="{exact:true}"
+            routerLinkActive="active" [routerLink]="['mymeetings']">
+            <i class="fa-solid fa-lg fa-user-gear px-2"></i>
+            <span class="d-none d-sm-inline">My&nbsp;Meetings</span>
+        </a>
+    </li>
+</ul>

@@ -1,0 +1,22 @@
+#Node
+node_modules
+npm-debug.log
+
+# IDE - VSCode
+.vs/*
+.history/*
+.vscode/
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# compiled output
+/dist
+/tmp
+/out-tsc
+
+# misc
+/.angular/cache
+.sass-cache/
+

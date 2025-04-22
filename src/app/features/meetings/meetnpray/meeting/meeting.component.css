@@ -1,0 +1,47 @@
+.meetnpray-card-fieldset {
+    fieldset {
+        border-radius: 5px;
+        padding: 1.2rem .5rem .5rem .5rem !important;
+
+        legend {
+            top: -.75rem;
+            width: auto;
+            font-size: 1.1rem;
+            font-weight: bold;
+            padding-right: 0.25rem !important;
+            padding-left: 0.25rem !important;
+
+        }
+    }
+}
+
+/*
+.disabled-form {
+    background-color: #f8f9fa !important;
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.disabled-form input,
+.disabled-form select,
+.disabled-form textarea {
+    background-color: #e9ecef !important;
+    color: #6c757d !important;
+    border: 1px solid #ced4da !important;
+}
+
+.disabled-form input[type="checkbox"] {
+    filter: grayscale(100%);
+    cursor: not-allowed;
+}
+*/
+
+input[type=checkbox] {
+    width: 22px;
+    height: 22px;
+}
+
+input[type=radio] {
+    width: 22px;
+    height: 22px;
+}

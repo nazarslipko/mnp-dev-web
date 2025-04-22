@@ -1,0 +1,140 @@
+<div class="container">
+    <div class="row">
+        <div class="text-center">
+            <h2 class="mt-4 text-primary">About</h2>
+            <p>Welcome to Meet-N-Pray. This app was founded on God's calling to create peer-to-peer pray service for all.</p>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
+            <h4> Sign Up</h4>
+            <form *ngIf="userForm" [formGroup]="userForm" (ngSubmit)="saveUser()">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" formControlName="FirstName" placeholder="Enter First Name">
+                            <ul *ngIf="userForm.controls['FirstName'].invalid && (userForm.controls['FirstName'].dirty || userForm.controls['FirstName'].touched)" class="text-danger list-unstyled">
+                              <li class="fs-6" [innerHtml]="userFormErrorMessage('First name', userForm.controls['FirstName'].errors)"></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <input type="text" class="form-control" formControlName="LastName" placeholder="Enter Last Name">
+                            <ul *ngIf="userForm.controls['LastName'].invalid && (userForm.controls['LastName'].dirty || userForm.controls['LastName'].touched)" class="text-danger list-unstyled">
+                                <li class="fs-6" [innerHtml]="userFormErrorMessage('Last name', userForm.controls['LastName'].errors)"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-3">
+                        <input type="email" class="form-control" formControlName="Email" placeholder="Enter email">
+                        <ul *ngIf="userForm.controls['Email'].invalid && (userForm.controls['Email'].dirty || userForm.controls['Email'].touched)" class="text-danger list-unstyled">
+                            <li class="fs-6" [innerHtml]="userFormErrorMessage('Email', userForm.controls['Email'].errors)"></li>
+                        </ul>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" formControlName="Phone" placeholder="Enter phone">
+                        <ul *ngIf="userForm.controls['Phone'].invalid && (userForm.controls['Phone'].dirty || userForm.controls['Phone'].touched)" class="text-danger list-unstyled">
+                            <li class="fs-6" [innerHtml]="userFormErrorMessage('Phone', userForm.controls['Phone'].errors)"></li>
+                        </ul>
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" class="form-control" formControlName="Password" placeholder="Password">
+                        <ul *ngIf="userForm.controls['Password'].invalid && (userForm.controls['Password'].dirty || userForm.controls['Password'].touched)" class="text-danger list-unstyled">
+                            <li class="fs-6" [innerHtml]="userFormErrorMessage('Password', userForm.controls['Password'].errors)"></li>
+                        </ul>
+                    </div>
+                    <div class="mb-3">
+                        <input type="password" class="form-control" formControlName="ConfirmPassword" placeholder="Confirm Password">
+                        <span class="text-danger" *ngIf="userForm?.get('Password')?.valid && userForm?.get('ConfirmPassword')?.dirty && (userForm?.get('Password')?.value !== userForm?.get('ConfirmPassword')?.value)">
+                            Password and Confirm Password must match.
+                        </span>
+                    </div>
+                    <div class="mb-3">
+                        <select class="form-select" formControlName="Country" (change)="changeCountry($event)">
+                            <option value="">Choose Your Country</option>
+                            <option *ngFor="let country of Countries" [ngValue]="country.CountryId">{{country.Name}}</option>
+                        </select>
+                        <div class="text-danger" *ngIf="userForm.controls['Country'].hasError('required')">
+                            <sup>*</sup>Select your country
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <p class=" fw-normal fs-5">Affiliation</p>
+                    <div class="col-auto">
+                        <div *ngFor="let affiliation of UserAffiliation">
+                            <div *ngIf="affiliation.LookupId === 3">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" formControlName="AffiliationLookupId" name="AffiliationLookupId" [value]="affiliation.LookupId" [checked]="true">
+                                    <label class="form-check-label">{{affiliation.LookupName}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div *ngFor="let affiliation of UserAffiliation">
+                            <div *ngIf="affiliation.LookupId === 4">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" formControlName="AffiliationLookupId" name="AffiliationLookupId" [value]="affiliation.LookupId">
+                                    <label class="form-check-label">{{affiliation.LookupName}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div *ngFor="let affiliation of UserAffiliation">
+                            <div *ngIf="affiliation.LookupId === 5">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" formControlName="AffiliationLookupId" name="AffiliationLookupId" [value]="affiliation.LookupId">
+                                    <label class="form-check-label">{{affiliation.LookupName}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <p class=" fw-normal fs-5">I am a</p>
+                    <div class="col-auto">
+                        <div *ngFor="let category of UserCategory">
+                            <div *ngIf="category.LookupId === 1">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" FormControlName="UserTypeLookupId" name="UserTypeLookupId" [value]="category.LookupId" [checked]="true">
+                                    <label class="form-check-label">{{category.LookupName}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div *ngFor="let category of UserCategory">
+                            <div *ngIf="category.LookupId === 2">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" formControlName="UserTypeLookupId" name="UserTypeLookupId" [value]="category.LookupId">
+                                    <label class="form-check-label">{{category.LookupName}}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ">
+                    <div class="col-auto">
+                      <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input">
+                        <label class="form-check-label">Agree to terms and conditions</label>
+                      </div>
+                    </div>
+                </div>
+
+                <div class="row ">
+                    <div class="mb-3 d-grid gap-2 col-12 mx-auto">
+                        <!-- <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">Submit</button> -->
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <!--   <button type="submit" class="btn btn-primary">Submit</button> -->
+                        <div class="mb-3 text-danger"> <small>{{errors}}</small></div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

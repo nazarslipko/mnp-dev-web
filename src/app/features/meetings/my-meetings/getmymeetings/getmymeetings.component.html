@@ -1,0 +1,56 @@
+<div class="container-fluid mt-3">
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow-5">
+                <div class="card-header text-dark">
+                    <div class="row justify-content-evenly">
+                        <div class="col">
+                            <h5 class="me-5" style="font-weight:500;">Manage</h5>                          
+                        </div>
+                        <div class="col">                           
+                            <button class="btn btn-sm btn-info float-end">Start a Meet-n-Pray</button>
+                        </div>
+                    </div>                    
+                </div>
+                <div class="card-body" *ngIf="allMyMeetings.length > 0">
+                    <div class="datatable">
+                        <table class="table datatable-table table-striped table-hover">
+                            <thead class="datatable-header">
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody class="datatable-body">
+                                <tr *ngFor="let data of allMyMeetings" scope="row">
+                                    <td>
+                                        <button class="call-btn btn btn-outline-primary btn-floating btn-sm"
+                                            tooltip="open Meeting" (click)="openMeeting(data.MeetingId, data.UserId)">
+                                            <i class="fas fa-external-link-alt"></i>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <h5 style="font-weight:500;">{{ data.Title}}</h5>
+                                    </td>
+                                    <td>
+                                        <div> <span> </span>{{data.StartDate |date: 'MMM d, y'
+                                            }}&nbsp;-&nbsp;{{data.EndDate
+                                            |date: 'MMM d, y' }} </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="card-body" *ngIf="allMyMeetings.length <= 0">
+                    <div class="text-center">
+                        <p>You have not started a Meet-n-Pray.</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

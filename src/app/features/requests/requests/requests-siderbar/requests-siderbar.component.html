@@ -1,0 +1,62 @@
+<ul class="nav nav-pills flex-sm-column flex-row mb-auto justify-content-between  text-truncate">
+  <li class="nav-item">
+    <a href="javascript:;" class="nav-link  px-2 text-truncate" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active" routerLink="/prayers/letuspray/god">
+      <i class="fa-solid fa-lg fa-house-chimney px-2"></i>
+      <span class="d-none d-sm-inline">Home</span>
+    </a>
+  </li>
+  <!--
+  <li class="nav-item">
+    <a href="javascript:;" class="nav-link px-2 text-truncate" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active" routerLink="/requests/nonconfidential">
+      <i class="fa-solid fa-lg fa-hand px-2"></i>
+      <span class="d-none d-sm-inline me-2">Requests</span>
+    </a>
+  </li>-->
+
+  <li class="nav-item">
+    <a href="javascript:;" class="nav-link px-2 text-truncate" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active" (click)="navigateToRequests('prayers')" routerLink="/requests/prayers">
+      <i class="fa-solid fa-lg fa-hand px-2"></i>
+      <span class="d-none d-sm-inline me-2">Requests</span>
+    </a>
+  </li>
+  <li class="nav-item" *ngIf="iContact.Intercessor">
+      <a href="javascript:;" class="nav-link px-2 text-truncate" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active" (click)="navigateToRequests('confidential')" routerLink="/requests/confidential">
+          <i class="fa-solid fa-lg fa-lock px-2"></i>
+          <span class="d-none d-sm-inline me-2">Confidential</span>
+      </a>
+  </li>
+  <li class="nav-item">
+    <a href="javascript:;" class="nav-link px-2 text-truncate" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active" (click)="navigateToRequests('prayed')" [routerLink]="['prayed']">
+      <i class="fa-solid fa-check-circle fa-lg px-2"></i>
+      <span class="d-none d-sm-inline me-2">Prayed</span>
+    </a>
+  </li> 
+  <!--
+  <li class="nav-item">
+    <a href="javascript:;" class="nav-link px-2 text-truncate" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active"  [routerLink]="['prayed']">
+      <i class="fa-solid fa-check-circle fa-lg px-2"></i>
+      <span class="d-none d-sm-inline me-2">Prayed</span>
+    </a>
+  </li> -->
+  <li class="nav-item">
+    <a href="javascript:;" class="nav-link px-2 text-truncate" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active" routerLink="/prayers/letuspray/god">
+
+      <i class="fa-solid fa-lg fa-file-lines px-2"></i>
+      <span class="d-none d-sm-inline">Request</span>
+    </a>
+  </li>
+  <li class="nav-item">
+    <a href="javascript:;" class="nav-link  px-2 text-truncate" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active" routerLink="/community/meetings">
+      <i class="fa-solid fa-lg fa-users px-2"></i>
+      <span class="d-none d-sm-inline">Meetings</span>
+    </a>
+  </li>
+
+  <li><hr></li>
+  <li class="nav-item">
+    <a href="javascript:;" class="nav-link px-2 text-truncate" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active" [routerLink]="['settings']">
+      <i class="fa-solid fa-lg fa-gears px-2"></i>
+      <span class="d-none d-sm-inline">Settings</span>
+    </a>
+  </li>
+</ul>

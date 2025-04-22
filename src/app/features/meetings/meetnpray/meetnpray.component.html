@@ -1,0 +1,176 @@
+<div class="container">
+    <div class="row mb-2">
+        <div class="col-12">
+            <div class=" me-3">
+                <a class="text-decoration-none float-end" href="javascript:0;" placement="bottom"
+                    [ngbPopover]="popFilterContent"><i class="fa-solid fa-filter fa-lg"></i>Filter</a>
+                <ng-template #popFilterContent>
+                    <div class="mb-2">
+                        <span (click)=" filterRequest(1)">Ascending</span>
+                    </div>
+                    <div class="mb-2">
+                        <span (click)=" filterRequest(0)"> Descending</span>
+                    </div>
+                </ng-template>
+                <!-- <ng-template #popFilterTitle>Sort By</ng-template> -->
+                <!--   <button type="button" placement="bottom" class="btn btn-outline-secondary" [ngbPopover]="popFilterContent" [popoverTitle]="popFilterTitle">
+                  I've got markup and bindings in my popover!
+                </button> -->
+            </div>
+        </div>
+    </div>
+    <div class="row search-results" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="500"
+        (scrolled)="onScroll()">
+        <div class="table-responsive" *ngIf="meetnPray.length">
+            <table class="table border border-1 table-bordered overflow-hidden">
+                <tbody *ngFor="let meet of  meetnPray">
+                    <tr>
+                        <div class="row">
+                            <div class="col-3 align-self-center">
+                                <div class="text-center">
+                                    <img src="..." class="img-fluid rounded-start " alt="...">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="container">
+                                    <div class="row ">
+                                        <div class="fs-5 "><strong>{{meet.Title}}</strong></div>
+                                        <div class="fst-italic fw-light" *ngFor="let contact of meet.Contact">
+                                            <strong>{{contact.FirstName}}</strong>&nbsp;&nbsp;<strong>{{contact.LastName}}</strong>
+                                        </div>
+
+                                        <div class="card-text"> {{meet.Story}} </div>
+                                        <dl class="small">
+                                            <dt>
+                                                <div class="fst-italic fw-light"> <i
+                                                        class="fa-solid fa-calendar-days"></i>&nbsp;{{meet.StartDate
+                                                    |date: 'MMM d, y' }}&nbsp;-&nbsp;{{meet.EndDate |date: 'MMM d, y'
+                                                    }}</div>
+                                            </dt>
+                                            <dt>
+                                                <div class="fst-italic fw-light"><i
+                                                        class="fa-solid fa-clock"></i>&nbsp;{{meet.StartTime}}&nbsp;-&nbsp;{{meet.EndTime}}&nbsp;&nbsp;{{meet.TimeZone}}
+                                                </div>
+                                            </dt>
+                                            <dt>
+                                                <div class="fst-italic fw-light"><i
+                                                        class="fa-solid fa-location-dot"></i>&nbsp;{{meet.Street1}},&nbsp;{{meet.City}},&nbsp;{{meet.Country}}
+                                                </div>
+                                            </dt>
+                                        </dl>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col-12">
+                                            <div class="mb-2">
+                                                <small class="float-end fs-7 fst-italic">
+                                                    {{meet.Tags.split('|').join('&nbsp;,')}}</small>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <hr class="mt-1 mb-1" />
+                                            <div class="row">
+                                                <div class="col-2">
+                                                    <div *ngIf="!meet.RequestStatus">
+                                                        <span
+                                                            class="fs-6 fw-light fst-italic"><!--Add word here --></span>
+                                                    </div>
+                                                    <div *ngIf="meet.RequestStatus">
+                                                        <span class="fs-6 fw-light fst-italic"
+                                                            *ngFor="let rs of meet.RequestStatus">{{rs.Prayed}}&nbsp;Participants</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="mb-2">
+
+                                                        <div
+                                                            class="d-grid gap-2 d-flex d-md-flex d-sm-flex justify-content-md-end justify-content-sm-end justify-content-end">
+                                                            <a class="text-decoration-none" href="javascript:0;"
+                                                                (click)="openConfirmParticipantModal(meet, participantModal)">
+                                                                <span><i class="fa-solid fa-right-to-bracket fa-lg"
+                                                                        tooltip="join"></i></span>
+                                                            </a>
+                                                            <a class="text-decoration-none" href="javascript:0;"
+                                                                (click)="composeNote(meet,noteModal)">
+                                                                <span><i class="fa-solid fa-envelope fa-lg"></i></span>
+                                                            </a>
+                                                            <a class="text-decoration-none" href="javascript:0;"
+                                                                (click)="moreInformation(meet)">
+                                                                <span><i
+                                                                        class="fa-solid fa-circle-info fa-lg"></i></span>
+                                                            </a>
+                                                            <a class="text-decoration-none" href="javascript:0;"
+                                                                (click)="reactions(meet, 'shared')">
+                                                                <span *ngIf="meet.AcceptSharing"><i
+                                                                        class="fa-solid fa-share fa-lg"></i></span>
+                                                            </a>
+                                                            <a class="text-decoration-none" href="javascript:0;"
+                                                                (click)="reactions(meet, 'inappropriate')">
+                                                                <span><i class="fa-solid fa-ban  fa-lg"></i></span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div *ngIf="isLoading">Loading...</div>
+    <div class="row" *ngIf="!meetnPray.length">
+        <!-- Display no records found-->
+        <div class="mb-3">
+            <p>There is no data shared.</p>
+        </div>
+    </div>
+
+    <!--Prayer Note Form: Modal-->
+    <ng-template #noteModal let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title text-centered" id="modal-basic-title">Note</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="onCloseNoteModal(modal)"></button>
+        </div>
+        <form *ngIf="noteForm" [formGroup]="noteForm" novalidate>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="form-group mb-3">
+                        <textarea type="text" class="form-control" formControlName="Note" rows="8"
+                            placeholder="Enter Note"
+                            [ngClass]="{'is-invalid': submitted && noteForm.controls['Note'].errors }"> </textarea>
+                    </div>
+                    <input type="hidden" name="RequestId" formControlName="RequestId" />
+                    <input type="hidden" name="UserId" formControlName="UserId" />
+                    <input type="hidden" name="NoteId" formControlName="NoteId" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" (click)="onSaveNote(modal)">Send</button>
+            </div>
+        </form>
+    </ng-template>
+    <!--End Prayer Form-->
+
+        <!--Participant confirm: Modal-->
+        <ng-template #participantModal let-modal>           
+            <form  novalidate>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="form-group mb-3">
+                            <div class="fs-5">Are you sure you want to join the <strong> {{confirmParticipant}}</strong>  Meet-N-Pray?</div>
+                        </div>                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-info" (click)="onCloseParticipantConfirm(modal)">No</button>
+                    <button class="btn btn-primary" (click)="onParticipantConfirm(modal)">Yes</button>
+                </div>
+            </form>
+        </ng-template>
+        <!--End Participant confirm-->
+</div>

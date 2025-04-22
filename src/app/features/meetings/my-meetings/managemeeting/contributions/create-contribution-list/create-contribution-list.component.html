@@ -1,0 +1,178 @@
+<form *ngIf="contributionForm" novalidate [formGroup]="contributionForm">
+  <div class="position-relative">
+    <div class="modal-header">
+      <h4 class="modal-title">{{modalTitle}}&nbsp;Contributions</h4>
+      <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+      <div class="card mb-3">
+        <div class="card-header">
+          <span class="text-muted fw-bold">{{subTitle}}</span>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="form-group mb-3">
+              <div class="form-check form-switch">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="checkbox" formControlName="IsMonetaryContribution"
+                    name="IsMonetaryContribution"> Monetary Contribution
+                </label>
+              </div>
+            </div>
+          </div>
+          <!--For Items contribution -->
+          <div *ngIf="!contributionForm.get('IsMonetaryContribution')?.value">
+            <div class="row">
+              <div class="form-group mb-3">
+                <input type="text" class="form-control" formControlName="ItemName"
+                  placeholder="Enter Contribution Item Name" />
+                <ul *ngIf="
+                 contributionForm.controls['ItemName'].invalid &&
+                  (contributionForm.controls['ItemName'].dirty ||
+                    contributionForm.controls['ItemName'].touched)
+                " class="text-danger list-unstyled">
+                  <li class="fs-6" [innerHtml]="
+                   contributionFormValidation(
+                      'Contribution Item Name',
+                      contributionForm.controls['ItemName'].errors
+                    )
+                  "></li>
+                </ul>
+              </div>
+            </div>
+
+
+            <div class="row">
+              <div class="col-6">
+                <div class="form-group mb-3">
+                  <label class="fs-6">Total Needed Items</label>
+                  <input type="number" class="form-control" formControlName="Quantity" name="Quantity" minlength="1"
+                    placeholder="Enter total of needed items" />
+                  <ul *ngIf="
+                        contributionForm.controls['Quantity'].invalid &&
+                        (contributionForm.controls['Quantity'].dirty ||
+                          contributionForm.controls['Quantity'].touched)
+                      " class="text-danger list-unstyled">
+                    <li class="fs-6" [innerHtml]="
+                           contributionFormValidation(
+                            'Quantity',
+                            contributionForm.controls['Quantity'].errors
+                          )
+                        "></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="col-6">
+                <div class="form-group mb-3">
+                  <label class="fs-6">Measurement</label>
+                  <input type="text" class="form-control" formControlName="Measure" name="Measure"
+                    placeholder="Enter measurement" />
+                  <ul *ngIf="
+                        contributionForm.controls['Measure'].invalid &&
+                        (contributionForm.controls['Measure'].dirty ||
+                          contributionForm.controls['Measure'].touched)
+                      " class="text-danger list-unstyled">
+                    <li class="fs-6" [innerHtml]="
+                           contributionFormValidation(
+                            'Measure',
+                            contributionForm.controls['Measure'].errors
+                          )
+                        "></li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="form-group mb-3">
+                <textarea type="text" cols="1" class="form-control" formControlName="ShortDescription"
+                  placeholder="Enter description"> </textarea>
+                <ul *ngIf="
+                 contributionForm.controls['ShortDescription'].invalid &&
+                  (contributionForm.controls['ShortDescription'].dirty ||
+                    contributionForm.controls['ShortDescription'].touched)" class="text-danger list-unstyled">
+                  <li class="fs-6" [innerHtml]="
+                   contributionFormValidation(
+                      'Short Description',
+                      contributionForm.controls['ShortDescription'].errors
+                    )
+                  "></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!--Monetary contribution -->
+          <div *ngIf="contributionForm.get('IsMonetaryContribution')?.value">
+            <div class="row">
+              <div class="form-group mb-3">
+                <textarea type="text" cols="4" class="form-control" formControlName="LongDescription"
+                  placeholder="Enter Description"> </textarea>
+                <ul *ngIf="
+                 contributionForm.controls['LongDescription'].invalid &&
+                  (contributionForm.controls['LongDescription'].dirty ||
+                    contributionForm.controls['LongDescription'].touched)
+                " class="text-danger list-unstyled">
+                  <li class="fs-6" [innerHtml]="
+                   contributionFormValidation(
+                      'Long Description',
+                      contributionForm.controls['Long Description'].errors
+                    )
+                  "></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-auto">
+              <div class="row">
+                <div class="col-auto">
+                  <input type="hidden" formControlName="MeetingId" name="MeetingId" />
+                  <input type="hidden" formControlName="MeetingComponentId" name="MeetingComponentId" />
+                  <input type="hidden" formControlName="MeetingContributionId" name="MeetingContributionId" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-cancel btn-warning" (click)="activeModal.close('Close click')">
+        Cancel
+      </button>
+
+      <button *ngIf="this.contributionForm.controls['MeetingContributionId'].value>0" type="button"
+        class="btn btn-danger" [disabled]="this.contributionForm.invalid"
+        (click)="openConfirmDeleteModal(contributionForm.controls['MeetingContributionId'].value)">
+        Delete
+      </button>
+      <button type="button" class="btn btn-primary" [disabled]="contributionForm.invalid || isSubmitted"
+        (click)="onCreateUpdateAndCloseListingContributionItems()">
+        Save and Close
+      </button>
+      <button *ngIf="this.contributionForm.controls['MeetingContributionId'].value===0" type="button"
+        class="btn btn-primary" [disabled]="contributionForm.invalid || isSubmitted"
+        (click)="onSaveAndListMoreContributionItems()">
+        Save and List More Items
+      </button>
+    </div>
+  </div>
+</form>
+
+<!--Delete Lower Court Modal-->
+<ng-template #confirmDelete let-modal>
+  <div class="modal-body">
+    <p class="fs-5">Are you sure you want to delete this contribution item?</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeDeleteMeetingModal(modal)">
+      No
+    </button>
+    <button type="button" class="btn btn-primary" (click)="confirmDeleteMeeting(modal)">
+      Yes
+    </button>
+  </div>
+</ng-template>

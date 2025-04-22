@@ -1,0 +1,140 @@
+<div class="container">
+    <div class="row mb-2">
+        <div class="col-12">
+            <div class=" me-3">
+                <a class="text-decoration-none float-end" href="javascript:0;" placement="bottom" [ngbPopover]="popFilterContent"><i class="fa-solid fa-filter fa-lg"></i>Filter</a>
+                <ng-template #popFilterContent>
+                    <div class="mb-2">
+                        <span (click)=" filterRequest(1)">Ascending</span>
+                    </div>
+                    <div class="mb-2">
+                        <span (click)=" filterRequest(0)"> Descending</span>
+                    </div>
+                </ng-template>
+                <!-- <ng-template #popFilterTitle>Sort By</ng-template> -->
+                <!--   <button type="button" placement="bottom" class="btn btn-outline-secondary" [ngbPopover]="popFilterContent" [popoverTitle]="popFilterTitle">
+                  I've got markup and bindings in my popover!
+                </button> -->
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row search-results" infiniteScroll [infiniteScrollDistance]="1" [infiniteScrollThrottle]="500" (scrolled)="onScroll()">
+        <div class="table-responsive" *ngIf="prayerRequests.length">
+            <table class="table border border-1 table-bordered overflow-hidden">
+                <tbody *ngFor="let request of  prayerRequests">
+                    <tr>
+                        <div class="row">
+                            <div class="col-2 align-self-center">
+                                <div class="text-center">
+                                    <img src="..." class="img-fluid rounded-start " alt="...">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="container">
+                                    <div class="row ">
+                                        <div *ngFor="let contact of request.Contact"><strong>{{contact.FirstName}}</strong>&nbsp;&nbsp;<strong>{{contact.LastName}}</strong></div>
+                                        <div class="fs-5 fst-italic fw-light">{{request.Purpose}}</div>
+                                        <div class="card-text"> {{request.Request}} </div>
+                                    </div>
+                                    <div class="row ">
+                                        <div class="col-12">
+                                            <div class="mb-2">
+                                                <small class="float-end fs-7 fst-italic"> #{{request.Tags.split('|').join('&nbsp;,#')}}&nbsp;|&nbsp;Posted:&nbsp;{{request.CreatedDate |date: 'MMM d, y' }}</small>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-12">
+                                            <hr class="mt-1 mb-1" />
+                                            <div class="row">
+                                                <div class="col-2">
+                                                    <div *ngIf="!request.RequestStatus">
+                                                        <span class="fs-6 fw-light fst-italic">Prayed</span>
+                                                    </div>
+                                                    <div *ngIf="request.RequestStatus">
+                                                        <span class="fs-6 fw-light fst-italic" *ngFor="let rs of request.RequestStatus">{{rs.Prayed}}&nbsp;Prayed</span>
+                                                    </div>
+                                                </div>
+                                                <div class="col">
+                                                    <div class="mb-2">
+                                                        <div class="d-grid gap-2 d-flex d-md-flex d-sm-flex justify-content-md-end justify-content-sm-end justify-content-end">
+                                                            <a class="text-decoration-none" href="javascript:0;" (click)="requestStatus(request.RequestId, 'prayed')">
+                                                                <span><i class="fa-solid fa-person-praying fa-lg"></i></span>
+                                                            </a>
+
+                                                            <a class="text-decoration-none" href="javascript:0;" (click)="composeNote(request,noteModal)">
+                                                                <span><i class="fa-solid fa-note-sticky fa-lg"></i></span>
+                                                            </a>
+                                                            <a class="text-decoration-none" href="javascript:0;" (click)="requestStatus( request, 'prayed')">
+                                                                <span><i class="fa-solid fa-phone-flip fa-lg"></i></span>
+                                                            </a>
+
+                                                            <a class="text-decoration-none" href="javascript:0;" (click)="requestReactions(request.RequestId, 'info')">
+                                                                <span><i class="fa-solid fa-circle-info fa-lg"></i></span>
+                                                            </a>
+
+                                                            <a class="text-decoration-none" href="javascript:0;" (click)="requestReactions(request.RequestId, 'shared')">
+                                                                <span *ngIf="request.AcceptSharing"><i class="fa-solid fa-share fa-lg"></i></span>
+                                                            </a>
+                                                            <a class="text-decoration-none" href="javascript:0;" (click)="requestReactions(request.RequestId, 'inappropriate')">
+                                                                <span><i class="fa-solid fa-ban  fa-lg"></i></span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!--   <div class="col align-self-center">
+                              <button class="btn btn-primary" (click)="requestStatus( request, 'prayed')"> <span><i class="fa-solid fa-person-praying  fa-lg"></i></span></button>
+                            </div> -->
+                        </div>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div *ngIf="isLoading">Loading...</div>
+    <div class="row" *ngIf="!prayerRequests.length">
+        <!-- Display no records found-->
+        <div class="mb-3">
+            <p>There is no data shared.</p>
+        </div>
+
+    </div>
+
+    <!--Prayer Note Form: Modal-->
+    <ng-template #noteModal let-modal>
+        <div class="modal-header">
+            <h4 class="modal-title text-centered" id="modal-basic-title">Note</h4>
+            <button type="button" class="btn-close" aria-label="Close" (click)="onCloseNoteModal()"></button>
+        </div>
+        <form *ngIf="noteForm" [formGroup]="noteForm"  novalidate>
+            <div class="modal-body">
+              <div class="row">
+
+                <div class="form-group mb-3">
+                   <textarea type="text" class="form-control" formControlName="Note" rows="8" placeholder="Enter Note" [ngClass]="{'is-invalid': submitted && noteForm.controls['Note'].errors }"> </textarea>
+                 <!--  <ul *ngIf="noteForm.controls['Note'].invalid && (noteForm.controls['Note'].dirty || noteForm.controls['Note'].touched)" class="text-danger list-unstyled">
+                    <li class="fs-6" [innerHtml]="noteFormErrorMessage('Note', noteForm.controls['Note'].errors)"></li>
+                  </ul> -->
+                </div>
+                <input type="hidden" name="RequestId" formControlName="RequestId"/>
+                <input type="hidden" name="UserId" formControlName="UserId"/>
+                <input type="hidden" name="NoteId" formControlName="NoteId"/>
+              </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" (click)="onSendNoteForm()">Send</button>
+            </div>
+        </form>
+    </ng-template>
+    <!--End Prayer Form-->
+</div>
+

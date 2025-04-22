@@ -1,0 +1,80 @@
+<div class="container-fluid mt-5">
+    <div class="row mb-3">
+        <div class="col d-flex justify-content-center">
+            <a href="javascript:;" class="btn btn-sm btn-outline-primary" [routerLinkActiveOptions]="{exact:true}"
+                routerLinkActive="active" [routerLink]="['/community/mymeetings']">
+                <i class="fa-solid fa-lg fa-angle-left px-2"></i>
+                My&nbsp;Meetings
+            </a>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-12">
+
+            <div class="meet-n-pray-tab-panel card p-3 border-white">
+                <nav>
+                    <div class="nav nav-tabs nav-justified" id="nav-tab" role="tablist">
+                        <a class="nav-link active" id="navEditMeetingTab" data-bs-toggle="tab"
+                            data-bs-target="#navEditMeeting" type="button" role="tab" aria-controls="navEditMeeting"
+                            aria-selected="false" [ngClass]="{'active': activeTab ==='editmeeting'}"
+                            (click)="setActiveTab('editmeeting')">
+                            Edit&nbsp;Meeting
+                        </a>
+                        <a class="nav-link" id="navContributionsTab" data-bs-toggle="tab"
+                            data-bs-target="#navContributions" type="button" role="tab" aria-controls="navContributions"
+                            [ngClass]="{'active': activeTab ==='contributions'}" (click)="setActiveTab('contributions')"
+                            aria-selected="false">
+                            Contributions
+                        </a>
+
+                        <a class="nav-link" id="navSignupsTab" data-bs-toggle="tab" data-bs-target="#navSignups"
+                            type="button" role="tab" aria-controls="navSignups"
+                            [ngClass]="{'active': activeTab ==='signups'}" (click)="setActiveTab('signups')"
+                            aria-selected="false">
+                            Signups
+                        </a>
+
+                        <a class="nav-link" id="navQuestionsTab" data-bs-toggle="tab" data-bs-target="#navQuestions"
+                            type="button" role="tab" aria-controls="navQuestions"
+                            [ngClass]="{'active': activeTab ==='questions'}" (click)="setActiveTab('questions')"
+                            aria-selected="false">
+                            Questionnaire
+                        </a>
+
+                        <a class="nav-link" id="navSettingsTab" data-bs-toggle="tab" data-bs-target="#navSettings"
+                            type="button" role="tab" aria-controls="navSettings"
+                            [ngClass]="{'active': activeTab ==='settings'}" (click)="setActiveTab('settings')"
+                            aria-selected="false">
+                            Settings
+                        </a>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="navEditMeeting" *ngIf="activeTab==='editmeeting'"
+                        role="tabpanel">
+                        <app-editmeeting [meeting]="iMeeting"></app-editmeeting>
+                    </div>
+                    <div class="tab-pane fade show active" id="navContributions" *ngIf="activeTab==='contributions'"
+                        role="tabpanel">
+                        <app-contributions [meeting]="iMeeting"></app-contributions>
+                    </div>
+
+                    <div class="tab-pane fade show active" id="navSignups" *ngIf="activeTab==='signups'"
+                        role="tabpanel">
+                        <app-signups [meeting]="iMeeting"></app-signups>
+                    </div>
+
+                    <div class="tab-pane fade show active" id="navQuestions" *ngIf="activeTab==='questions'"
+                        role="tabpanel">                     
+                        <app-questionnaire [meeting]="iMeeting"></app-questionnaire>
+                    </div>
+                    <div class="tab-pane fade show active" id="navSettings" *ngIf="activeTab==='settings'"
+                        role="tabpanel">
+                        <app-meetingsettings [meeting]="iMeeting"></app-meetingsettings>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

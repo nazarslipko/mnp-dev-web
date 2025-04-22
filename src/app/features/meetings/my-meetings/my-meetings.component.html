@@ -1,0 +1,33 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <!--<div class="meet-n-pray-tab-panel card p-3 border-white">-->
+
+            <nav>
+                <div class="nav nav-tabs nav-justified" id="nav-tab" role="tablist">                  
+
+                    <a class="nav-link active" id="navMyMeetingTab" data-bs-toggle="tab" data-bs-target="#navMyMeeting"
+                        type="button" role="tab" aria-controls="navMyMeeting" aria-selected="false"
+                        [ngClass]="{'active': activeTab ==='meetings'}" (click)="setActiveTab('meetings')">
+                        My&nbsp;Meetings
+                    </a>
+                    <a class="nav-link" id="navMyParicipationTab" data-bs-toggle="tab"
+                        data-bs-target="#navMyParticipation" type="button" role="tab" aria-controls="navMyParticipation"
+                        [ngClass]="{'active': activeTab ==='participations'}" (click)="setActiveTab('participations')"
+                        aria-selected="false">
+                        My&nbsp;Participation
+                    </a>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="navMyMeeting" *ngIf="activeTab==='meetings'" role="tabpanel">
+                    <app-getmymeetings [allMyMeetings]="myMeetings"></app-getmymeetings>
+                </div>
+                <div class="tab-pane fade show active" id="navMyParticipation" *ngIf="activeTab==='participations'" role="tabpanel">
+                    <app-getmyparticipations [allMyMeetings]="myMeetings"></app-getmyparticipations>                  
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
